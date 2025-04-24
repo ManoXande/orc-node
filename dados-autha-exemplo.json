@@ -1,0 +1,19 @@
+{
+  "company": {
+    "name": "Autha Engenharia e Mapeamento",
+    "cnpj": "38.489.344/0001-89",
+    "address": {
+      "street": "Av. Fernando Machado",
+      "number": "203",
+      "room": "Sala 01",
+      "city": "Chapecó",
+      "state": "SC"
+    },
+    "contact": {
+      "phones": ["(49) 99971-9388", "(49) 98891-7779"],
+      "email": "engenharia@autha.com.br",
+      "website": "www.autha.com.br"
+    },
+    "slogan": "Soluções integradas para engenharia e mapeamento"
+  }
+} 

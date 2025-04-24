@@ -1,0 +1,64 @@
+Visão Geral da Solução
+
+1. Arquitetura  
+- Front-end: React (CRA ou Vite) gerenciando um formulário dinâmico a partir do JSON de entrada.  
+- Back-end: Node.js + Express para receber o JSON do cliente e invocar Puppeteer para gerar PDF.  
+- Geração de PDF: Puppeteer em modo headless, renderizando uma página HTML/CSS com medidas em mm (A4 210×297 mm) com cabeçalho (17 mm), rodapé (17 mm) e margens de 20 mm.  
+
+2. Fluxo de Dados  
+- Usuário carrega JSON (.json) ou preenche campos no formulário gerado dinamicamente.  
+- Ao submeter, React envia JSON ao endpoint POST /api/proposal.  
+- Servidor monta uma página HTML (template) que consome esse JSON, aplica estilos e chama `page.pdf()` do Puppeteer com `format: 'A4'` e `margin: { top: '20mm', bottom: '20mm', left: '20mm', right: '20mm' }`.  
+
+3. Estrutura de Projeto  
+– /client  
+   • src/components/FormBuilder.tsx (constrói inputs dinamicamente)  
+   • src/pages/Editor.tsx (visualização prévia)  
+   • src/assets/fonts/AtypDisplay*, AtypText*  
+   • src/styles/theme.css (variáveis de cor, tipografia)  
+– /server  
+   • index.js (Express + rota /api/proposal)  
+   • templates/proposal.html (template Handlebars/EJS leve)  
+   • puppeteer.js (módulo de geração de PDF)  
+– package.json (scripts “start:client”, “start:server”)  
+
+4. Design e Identidade Visual  
+- Variáveis CSS:  
+  – --color-primary: #38d972;  
+  – --color-secondary: #2d2d2d;  
+  – --color-neutral-light: #f0f0f0;  
+  – --gradient-primary: linear-gradient(135deg, #30b86c, #38d972);  
+- Tipografia:  
+  – Títulos: “Atyp Display” (Thin, Regular, Bold conforme nível)  
+  – Texto corrido: “Atyp Text” (Regular, Bold)  
+- Layout de PDF:  
+  – Cabeçalho fixo (logo à esquerda, “Proposta Orçamentária – [Cliente]” à direita)  
+  – Rodapé fixo (dados da empresa)  
+  – Blocos de seção com espaçamento consistente e sem overlap  
+  – Escala 1:1 entre tela e PDF para pré-visualização fiel  
+
+5. Formulário Dinâmico  
+- Ler chaves principais: title, header, sections[]. Para cada section.content, renderizar textarea ou file-upload (para placeholder de imagem).  
+- Validar obrigatoriedade pelos tipos e exibir mensagens inline.  
+- Pré-visualização em tela via componente LayoutProposal, igual ao template de PDF (CSS para tela adaptado).  
+
+6. Geração de PDF  
+- Rota /api/proposal: recebe JSON, injeta em template e chama Puppeteer.  
+- Opções Puppeteer:  
+   ```js
+   await page.setContent(html, { waitUntil: 'networkidle0' });
+   await page.pdf({
+     path: 'proposal.pdf',
+     format: 'A4',
+     margin: { top: '20mm', bottom: '20mm', left: '20mm', right: '20mm' },
+     printBackground: true
+   });
+   ```  
+- Retornar PDF como download direto ao usuário.  
+
+Próximos Passos  
+1. Confirmar stack de ferramentas (Vite/CRA, Express).  
+2. Definir template HTML e CSS base para tela e impressão.  
+3. Implementar FormBuilder e LayoutProposal.  
+4. Configurar servidor Puppeteer.  
+

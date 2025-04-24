@@ -1,0 +1,256 @@
+{
+  "title": "PROPOSTA DE SOLUÇÃO ESTRATÉGICA PERSONALIZADA",
+  "header": {
+    "service": "Projeto de Desmembramento de Área Urbana",
+    "client": "Canva da Silva Sauro"
+  },
+  "sections": [
+    {
+      "id": 1,
+      "title": "Olá, Canva da Silva Sauro, Nosso Entendimento do Seu Projeto e Imóvel:",
+      "content": [
+        {
+          "type": "text",
+          "content": "Com base em nossa conversa, compreendemos que seu projeto de desmembramento de área urbana tem como finalidade dividir uma área de 2000 m² em 5 lotes de 400 m² cada, visando o objetivo principal de regularização e valorização do imóvel para futura comercialização ou uso individualizado."
+        },
+        {
+          "type": "text",
+          "content": "O imóvel objeto deste serviço, denominado Lote Urbano 03, Quadra 21, é classificado como urbano e registrado sob a Matrícula nº 4542 no Cartório de Registro de Imóveis competente."
+        },
+        {
+          "type": "text",
+          "content": "Localizado em Chapecó-SC, a propriedade possui uma área total de 2000 m²."
+        },
+        {
+          "type": "placeholder",
+          "content": "*[Aqui podemos incluir uma imagem ou mapa de localização do imóvel e visualização]*"
+        },
+        {
+          "type": "text",
+          "content": "Como Trabalhamos na Autha Engenharia: Seu projeto de desmembramento de área urbana é importante, e nós sabemos disso. Mais do que um serviço técnico, ele representa a realização de planos, a proteção do seu patrimônio ou a busca por segurança jurídica. Com essa visão, nos tornamos seus parceiros. Utilizamos processos ágeis, tecnologia avançada e dedicamos atenção especial a cada detalhe, do campo ao escritório. Queremos que todo o processo seja simples e seguro para você, agregando valor real ao seu imóvel e aos seus sonhos."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Nossa Solução Técnica Detalhada: Precisão e Conformidade para Você",
+      "content": [
+        {
+          "type": "text",
+          "content": "Para alcançar seu objetivo principal de regularização e valorização do imóvel, planejamos nosso trabalho com os seguintes passos técnicos:"
+        }
+      ],
+      "subsections": [
+        {
+          "id": "2.1",
+          "title": "Os Serviços Essenciais (Incluídos em todas as opções):",
+          "services": [
+            {
+              "name": "Serviço Essencial 1: Levantamento Topográfico de Precisão",
+              "what_we_will_do": "Realização de levantamento topográfico detalhado da área de 2000 m² utilizando tecnologia de drones com LiDAR e estações totais, garantindo a precisão dos limites e características do terreno.",
+              "your_benefit": "Com isso, você terá a base técnica confiável para o desmembramento, assegurando que os 5 lotes de 400 m² sejam delimitados com exatidão e conformidade legal.",
+              "what_you_will_receive": "Planta topográfica digital e memorial descritivo do terreno."
+            },
+            {
+              "name": "Serviço Essencial 2: Retificação da Matrícula e Projeto de Desmembramento",
+              "what_we_will_do": "Elaboração do projeto de desmembramento em conformidade com a legislação municipal de Chapecó-SC e retificação da Matrícula nº 4542, com protocolamento junto ao Cartório de Registro de Imóveis.",
+              "your_benefit": "Com isso, você terá a segurança jurídica necessária para a divisão do imóvel em 5 lotes, evitando entraves futuros e garantindo a regularização.",
+              "what_you_will_receive": "Projeto de desmembramento aprovado e documentação para registro dos novos lotes."
+            }
+          ],
+          "note": "Se houver outros serviços complementares relevantes, serão listados aqui"
+        },
+        {
+          "id": "2.2",
+          "title": "Serviços Complementares Recomendados (Para Maximizar Seu Resultado):",
+          "content": [
+            {
+              "type": "text",
+              "content": "Para agregar ainda mais valor, segurança e conveniência, sugerimos considerar também:"
+            }
+          ],
+          "services": [
+            {
+              "name": "Serviço Complementar 1: Consultoria para Aprovação Municipal",
+              "what_we_will_do": "Acompanhamento e gestão de todo o processo de aprovação do desmembramento junto à Prefeitura de Chapecó-SC, incluindo ajustes necessários para atender às exigências urbanísticas.",
+              "why_consider": "Este serviço traz benefícios como agilidade no processo de aprovação e redução de riscos de indeferimento por inconformidades."
+            },
+            {
+              "name": "Serviço Complementar 2: Planejamento de Infraestrutura Básica",
+              "what_we_will_do": "Elaboração de projeto preliminar de infraestrutura (rede de água, esgoto, energia e acesso) para os 5 lotes, otimizando custos e valorizando o imóvel.",
+              "why_consider": "Este serviço traz benefícios como maior atratividade para comercialização dos lotes e preparação para futuros empreendimentos."
+            }
+          ],
+          "note": "Se houver outros serviços complementares relevantes, serão listados aqui"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Seu Investimento: Opções Claras para Sua Escolha",
+      "content": [
+        {
+          "type": "text",
+          "content": "Acreditamos na transparência. Apresentamos as opções de investimento de forma clara para que você possa decidir. Primeiro, um resumo comparativo:"
+        }
+      ],
+      "comparison_table": {
+        "headers": ["Serviço / Componente", "Opção Essencial", "Opção Completa", "Opção Personalizada"],
+        "rows": [
+          ["Serviços Essenciais (Levantamento, Retificação, Desmembramento)", "Incluso", "Incluso", "Incluso"],
+          ["Consultoria para Aprovação Municipal", "Não Incluso", "Incluso", "A definir"],
+          ["Planejamento de Infraestrutura Básica", "Não Incluso", "Incluso", "A definir"],
+          ["Outro Opcional Relevante", "Não Incluso", "Opcional (pode adicionar)", "A definir"],
+          ["Foco Principal", "Fundamentação Técnica", "Tranquilidade Total", "Flexibilidade"]
+        ]
+      },
+      "investment_options": [
+        {
+          "id": 1,
+          "title": "Opção 1: Solução Completa, Máxima Segurança e Conveniência",
+          "description": "Nossa recomendação para quem busca total tranquilidade, segurança reforçada, entregamos seu imóvel desmembrado e regularizado.",
+          "includes": "Base Estratégica (Levantamento + Retificação + Desmembramento) + Consultoria para Aprovação Municipal + Planejamento de Infraestrutura Básica",
+          "plans": [
+            {
+              "name": "Plano Flexível",
+              "total": "R$ 15.000,00",
+              "conditions": "10x de R$ 1.500,00 ou 6x de R$ 2.500,00"
+            },
+            {
+              "name": "Plano Equilibrado (1+1)",
+              "total": "R$ 14.000,00",
+              "conditions": "Entrada de R$ 7.000,00 + R$ 7.000,00 na Entrega do Projeto"
+            },
+            {
+              "name": "Plano à Vista (Economia Imediata)",
+              "total": "R$ 13.500,00",
+              "conditions": "Pagamento na contratação - Representa 10% de desconto sobre o Plano Flexível"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "Opção 2: Solução Essencial Focada – A Base Técnica Sólida",
+          "description": "Ideal para garantir a precisão do levantamento, a retificação da matrícula e o projeto de desmembramento, formando o núcleo da regularização.",
+          "includes": "Base Estratégica (Levantamento + Retificação + Desmembramento).",
+          "plans": [
+            {
+              "name": "Plano Flexível",
+              "total": "R$ 10.000,00",
+              "conditions": "10x de R$ 1.000,00 ou 6x de R$ 1.666,67"
+            },
+            {
+              "name": "Plano Equilibrado (1+1)",
+              "total": "R$ 9.500,00",
+              "conditions": "Entrada de R$ 4.750,00 + R$ 4.750,00 na Entrega do Projeto"
+            },
+            {
+              "name": "Plano à Vista (Economia Imediata)",
+              "total": "R$ 9.000,00",
+              "conditions": "Pagamento na contratação - Representa 10% de desconto sobre o Plano Flexível"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "Opção 3: Solução Sob Medida – Sua Necessidade, Nosso Foco",
+          "description": "Se suas necessidades são específicas, podemos estruturar uma proposta personalizada. Combinamos os serviços essenciais com os complementares que melhor atendem ao seu objetivo e orçamento. Converse conosco para desenharmos juntos a solução ideal."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Próximos Passos: Começando Seu Projeto com Agilidade e Cuidado",
+      "content": [
+        {
+          "type": "item",
+          "content": "Cronograma Estimado: Nossa previsão é concluir os serviços essenciais em aproximadamente 60 dias, contando a partir da sua aprovação e do recebimento da documentação inicial."
+        },
+        {
+          "type": "item",
+          "content": "Prazos que dependem de órgãos externos (como Cartório, INCRA, Município) serão acompanhados de perto e informaremos você sobre o andamento. Nosso objetivo é ser ágil, sem abrir mão da qualidade."
+        },
+        {
+          "type": "item",
+          "content": "Comunicação Transparente: Manteremos você informado sobre cada etapa importante. Nossa equipe dedicará atenção especial para tirar suas dúvidas e garantir que o processo seja o mais tranquilo possível."
+        },
+        {
+          "type": "item",
+          "content": "Para Começar:",
+          "subitems": [
+            "Escolha a opção de investimento (1, 2 ou 3) que melhor se encaixa no que você precisa.",
+            "Confirme sua decisão respondendo a esta proposta ou entrando em contato com um de nossos engenheiros.",
+            "Estamos prontos para iniciar!"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "O Que Nossos Clientes Dizem:",
+      "testimonials": [
+        {
+          "author": "Marcio Stakonski, Empresário",
+          "quote": "A agilidade da Autha Engenharia é impressionante! Precisava de um levantamento complexo rapidamente e a equipe resolveu tudo com rapidez."
+        },
+        {
+          "author": "Carlos Caino, Engenheiro Civil",
+          "quote": "Meu trabalho estava complicado, mas a equipe desfez tudo rapidamente! Foram muito atenciosos e eficientes."
+        },
+        {
+          "author": "Família Damarem",
+          "quote": "Agradecemos à equipe! Cuidaram do nosso processo com atenção especial, agilidade e qualidade impecável. Serviço eficiente que nos deixou muito seguros!"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Condições Gerais e Detalhes Importantes:",
+      "items": [
+        "Os valores apresentados foram calculados para o imóvel Lote Urbano 03, Quadra 21, com área de 2000 m², considerando a complexidade estimada. Se houver mudanças significativas no escopo, pode ser necessário ajustar o orçamento.",
+        "O que não está incluído: Taxas e emolumentos de órgãos públicos (Cartório, INCRA, Prefeitura, etc.), custos com autenticações ou reconhecimento de firmas, e despesas de deslocamento para coletar assinaturas fora de Chapecó-SC (a menos que isso esteja previsto em algum serviço complementar contratado).",
+        "Esta proposta não cobre a resolução de disputas judiciais ou a realização de perícias técnicas adicionais, caso sejam necessárias.",
+        "Garantimos a total confidencialidade das suas informações, conforme a Lei Geral de Proteção de Dados (LGPD)."
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Você sabia? (Curiosidades)",
+      "items": [
+        "A tecnologia LiDAR em nossos drones gera mapeamentos 3D de alta precisão. A nuvem densa de pontos capturada (acima de 200.000/segundo), revela detalhes do terreno que são cruciais para o planejamento, inclusive sob copas de árvores.",
+        "Após o protocolo ser aberto no Registro de Imóveis, você tem exatamente 20 dias corridos para atender a todas as exigências. Caso contrário, o protocolo é cancelado.",
+        "Aqui na Autha desenvolvemos boa parte de nossos softwares, como AUTHACAD, que dobra a velocidade para se fazer um projeto, e com baixíssima taxa de erros comparado a outras soluções genéricas."
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Conclusão e Assinaturas:",
+      "content": [
+        {
+          "type": "text",
+          "content": "Chegou a hora de tirar seu projeto do papel com a segurança e agilidade, esta proposta detalha a solução completa da Autha Engenharia para garantir o sucesso do seu Projeto de Desmembramento de Área Urbana."
+        },
+        {
+          "type": "date",
+          "content": "Chapecó-SC, 18 de abril de 2025"
+        },
+        {
+          "type": "signature",
+          "content": "(Espaço para Assinatura)"
+        },
+        {
+          "type": "company_info",
+          "content": "Autha Engenharia e Mapeamento\nCNPJ: 38.489.344/0001-89"
+        },
+        {
+          "type": "validity",
+          "content": "Esta proposta é válida por 15 dias a partir da data de emissão."
+        },
+        {
+          "type": "slogan",
+          "content": "Seu projeto, nossa prioridade: Agilidade, tecnologia de ponta e cuidado dedicado para um registro seguro e tranquilo."
+        }
+      ]
+    }
+  ]
+}

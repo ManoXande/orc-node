@@ -1,0 +1,38 @@
+Criação de Web App de Propostas Orçamentárias - Autha Engenharia e Mapeamento
+
+Objetivo: Desenvolver um web app para a marca Autha, com foco em design de interface (UI) e experiência do usuário (UX), que permita aos usuários preencher um formulário dinâmico alimentado por um arquivo .json e gerar um PDF de proposta orçamentária visualmente atraente. O design deve ser consistente com a identidade visual da Autha, conforme guia de estilo, com estética moderna, minimalista e profissional, otimizada para usabilidade e conversão.
+
+Especificações:
+
+- Formulário: Criar um formulário interativo baseado em um arquivo .json (estruturado com campos como nome, descrição do serviço, valores, etc.). O formulário deve ser responsivo, com validação de campos e feedback visual para o usuário.
+- PDF de Proposta: Gerar um PDF a partir dos dados do formulário, com layout que reflita a identidade da marca Autha, incluindo logotipo, cores e tipografia do guia de estilo. O PDF deve ter um design visualmente semelhante a uma landing page, com hierarquia clara e elementos gráficos que reforcem a profissionalidade.
+- UI/UX: Priorizar uma interface limpa, com navegação intuitiva e estética moderna (ex.: uso de espaçamento amplo, tipografia legível, botões com microinterações). A UX deve ser fluida, com foco em reduzir o atrito para o usuário.
+- Tecnologias: Utilizar HTML, CSS, JavaScript e, preferencialmente, um framework como React para o front-end. Para geração de PDF, considerar bibliotecas como jsPDF ou similar.
+- Responsividade: Garantir que o web app seja totalmente funcional em dispositivos móveis, tablets e desktops.
+- Identidade Visual: Seguir rigorosamente o guia de estilo da Autha, incluindo paleta de cores, tipografia e elementos gráficos fornecidos. Caso o guia não esteja disponível, basear o design em uma estética profissional com tons neutros, detalhes em azul escuro e tipografia sans-serif.
+
+Público-Alvo: Clientes corporativos e pequenas empresas do setor de engenharia e mapeamento, que valorizam clareza, confiabilidade e eficiência.
+
+Entregáveis:
+
+1. Protótipo de alta fidelidade (ex.: Figma) para o formulário e o layout do PDF.
+2. Código-fonte do web app (HTML, CSS, JS/React), incluindo integração com o .json e geração de PDF.
+3. Documentação básica explicando como configurar e usar o web app.
+
+Critérios de Sucesso:
+
+- O formulário é intuitivo e funcional, com validação de dados e feedback claro.
+- O PDF gerado reflete a identidade da Autha e é visualmente atraente, com layout profissional.
+- O design é consistente com o guia de estilo e otimizado para diferentes dispositivos.
+- O web app é entregue com código limpo, comentado e pronto para implementação.
+
+Paleta de Cores:
+ Cor Primária (Verde Autha): Um verde vibrante e distinto (similar ao #30B86C ou um verde-menta brilhante). Usar como cor de destaque principal para botões primários, links importantes, ícones ativos, elementos interativos chave e fundos de seções específicas para criar impacto visual.
+ Cor Secundária (Cinza Chumbo/Grafite): Um cinza muito escuro, quase preto (similar ao #231F20 ou #333333). Usar para texto principal sobre fundos claros, títulos, e possivelmente como cor de fundo para seções escuras ou para o cabeçalho/rodapé em temas escuros.
+ Cor Neutra (Branco): Usar abundantemente para fundos principais (proporcionando um visual clean), texto sobre fundos escuros ou verdes, e ícones sobre fundos escuros ou verdes.
+ Cor Neutra (Cinza Claro): Um cinza claro (similar ao #F0F0F0 ou #EFEFEF). Usar para fundos secundários, divisórias sutis, bordas de input fields, ou como cor de fundo alternativa onde o branco puro não for ideal. Mencionado no guia como opção para texto em alguns contextos de contraste, mas priorizar o cinza chumbo/branco para textos principais.
+ Regra de Contraste: Seguir estritamente as regras de aplicação do logo: usar a versão que garanta melhor legibilidade e contraste com a cor de fundo, conforme os exemplos fornecidos (logo principal em fundos claros, logo branco em fundos escuros/verdes). Estender essa lógica para outros elementos: texto escuro sobre fundo claro, texto claro sobre fundo escuro/verde.
+
+
+
+ESTRUTURA DE ENTRADA .JSON 
