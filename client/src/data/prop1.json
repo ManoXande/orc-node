@@ -1,0 +1,263 @@
+{
+  "title": "PROPOSTA DE SOLUÇÃO ESTRATÉGICA PERSONALIZADA",
+  "header": {
+    "service": "Levantamento Topográfico, Retificação Administrativa e Desmembramento",
+    "client": "José Dias"
+  },
+  "sections": [
+    {
+      "id": 1,
+      "title": "Olá, José Dias, Nosso Entendimento do Seu Projeto e Imóvel:",
+      "content": [
+        {
+          "type": "text",
+          "content": "Com base em nossa conversa, compreendemos que seu projeto de Levantamento Topográfico, Retificação Administrativa e Desmembramento tem como finalidade regularizar e dividir a propriedade, visando o objetivo principal de garantir segurança jurídica e valorização do imóvel."
+        },
+        {
+          "type": "text",
+          "content": "O imóvel objeto deste serviço, denominado Propriedade José Dias, é classificado como urbano (informar se urbano ou rural) e registrado sob a Matrícula nº 23341 no Cartório de Registro de Imóveis competente."
+        },
+        {
+          "type": "text",
+          "content": "Localizado em Chapecó, Santa Catarina, a propriedade possui uma área total de 30.000 m²."
+        },
+        {
+          "type": "placeholder",
+          "content": "*[Aqui podemos incluir uma imagem ou mapa de localização do imóvel e visualização]*"
+        },
+        {
+          "type": "text",
+          "content": "Como Trabalhamos na Autha Engenharia: Seu projeto de Levantamento Topográfico, Retificação Administrativa e Desmembramento é importante, e nós sabemos disso. Mais do que um serviço técnico, ele representa a realização de planos, a proteção do seu patrimônio ou a busca por segurança jurídica. Com essa visão, nos tornamos seus parceiros. Utilizamos processos ágeis, tecnologia avançada e dedicamos atenção especial a cada detalhe, do campo ao escritório. Queremos que todo o processo seja simples e seguro para você, agregando valor real ao seu imóvel e aos seus sonhos."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Nossa Solução Técnica Detalhada: Precisão e Conformidade para Você",
+      "content": [
+        {
+          "type": "text",
+          "content": "Para alcançar seu objetivo principal de garantir segurança jurídica e valorização do imóvel, planejamos nosso trabalho com os seguintes passos técnicos:"
+        }
+      ],
+      "subsections": [
+        {
+          "id": "2.1",
+          "title": "Os Serviços Essenciais (Incluídos em todas as opções):",
+          "services": [
+            {
+              "name": "Serviço Essencial 1: Levantamento Topográfico",
+              "what_we_will_do": "Realização de levantamento topográfico com tecnologia de ponta, como drones com LiDAR e GPS de alta precisão, para mapear os 30.000 m² da propriedade com exatidão milimétrica, identificando limites, relevo e características do terreno.",
+              "your_benefit": "Com isso, você terá um mapeamento detalhado e confiável, essencial para a regularização e desmembramento do imóvel, garantindo agilidade nos processos seguintes.",
+              "what_you_will_receive": "Planta topográfica detalhada, memorial descritivo e relatório técnico."
+            },
+            {
+              "name": "Serviço Essencial 2: Retificação Administrativa",
+              "what_we_will_do": "Elaboração de projeto técnico para retificação administrativa junto ao Cartório de Registro de Imóveis, utilizando os dados do levantamento topográfico para corrigir divergências na matrícula e garantir a conformidade dos limites do imóvel.",
+              "your_benefit": "Com isso, você terá a segurança jurídica necessária para evitar disputas de limites e valorizar seu patrimônio.",
+              "what_you_will_receive": "Projeto de retificação, memorial descritivo atualizado e documentação protocolada no cartório."
+            },
+            {
+              "name": "Serviço Essencial 3: Desmembramento",
+              "what_we_will_do": "Desenvolvimento do projeto de desmembramento da área de 30.000 m² em lotes conforme suas necessidades, com análise de viabilidade junto à Prefeitura de Chapecó e elaboração de toda a documentação técnica necessária.",
+              "your_benefit": "Com isso, você terá a possibilidade de valorizar ainda mais seu imóvel, facilitando vendas ou uso diversificado da propriedade.",
+              "what_you_will_receive": "Planta de desmembramento, memorial descritivo dos lotes e documentação para aprovação municipal."
+            }
+          ],
+          "note": "Se houver outros serviços complementares relevantes, serão listados aqui"
+        },
+        {
+          "id": "2.2",
+          "title": "Serviços Complementares Recomendados (Para Maximizar Seu Resultado):",
+          "content": [
+            {
+              "type": "text",
+              "content": "Para agregar ainda mais valor, segurança e conveniência, sugerimos considerar também:"
+            }
+          ],
+          "services": [
+            {
+              "name": "Serviço Complementar 1: Regularização Ambiental",
+              "what_we_will_do": "Análise e regularização ambiental da propriedade, incluindo a identificação de áreas de preservação permanente (APP) e obtenção de licenças ambientais, se necessário.",
+              "why_consider": "Este serviço traz benefícios como conformidade com a legislação ambiental, evitando multas e garantindo maior segurança jurídica."
+            },
+            {
+              "name": "Serviço Complementar 2: Acompanhamento de Protocolos",
+              "what_we_will_do": "Acompanhamento dedicado de todos os protocolos junto a órgãos públicos, como Cartório de Registro de Imóveis e Prefeitura, para agilizar aprovações e resolver pendências.",
+              "why_consider": "Este serviço traz benefícios como maior tranquilidade e economia de tempo, já que cuidamos de toda a burocracia por você."
+            }
+          ],
+          "note": "Se houver outros serviços complementares relevantes, serão listados aqui"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Seu Investimento: Opções Claras para Sua Escolha",
+      "content": [
+        {
+          "type": "text",
+          "content": "Acreditamos na transparência. Apresentamos as opções de investimento de forma clara para que você possa decidir. Primeiro, um resumo comparativo:"
+        }
+      ],
+      "comparison_table": {
+        "headers": ["Serviço / Componente", "Opção Essencial", "Opção Completa", "Opção Personalizada"],
+        "rows": [
+          ["Serviços Essenciais (Levantamento, Retificação, Desmembramento)", "Incluso", "Incluso", "Incluso"],
+          ["Regularização Ambiental", "Não Incluso", "Incluso", "A definir"],
+          ["Acompanhamento de Protocolos", "Não Incluso", "Incluso", "A definir"],
+          ["Outro Opcional Relevante", "Não Incluso", "Opcional (pode adicionar)", "A definir"],
+          ["Foco Principal", "Fundamentação Técnica", "Tranquilidade Total", "Flexibilidade"]
+        ]
+      },
+      "investment_options": [
+        {
+          "id": 1,
+          "title": "Opção 1: Solução Completa, Máxima Segurança e Conveniência",
+          "description": "Nossa recomendação para quem busca total tranquilidade, segurança reforçada, entregamos seu imóvel registrado.",
+          "includes": "Base Estratégica (Levantamento Topográfico + Retificação Administrativa + Desmembramento) + Regularização Ambiental + Acompanhamento de Protocolos",
+          "plans": [
+            {
+              "name": "Plano Flexível",
+              "total": "R$ 25.000,00",
+              "conditions": "10x de R$ 2.500,00 ou 6x de R$ 4.166,67"
+            },
+            {
+              "name": "Plano Equilibrado (1+1)",
+              "total": "R$ 24.000,00",
+              "conditions": "Entrada de R$ 12.000,00 + R$ 12.000,00 na Entrega do Projeto"
+            },
+            {
+              "name": "Plano à Vista (Economia Imediata)",
+              "total": "R$ 22.500,00",
+              "conditions": "Pagamento na contratação - Representa 10% de desconto sobre o Plano Flexível"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "Opção 2: Solução Essencial Focada – A Base Técnica Sólida",
+          "description": "Ideal para garantir a precisão do levantamento, a retificação administrativa e o desmembramento, formando o núcleo da regularização.",
+          "includes": "Base Estratégica (Levantamento Topográfico + Retificação Administrativa + Desmembramento).",
+          "plans": [
+            {
+              "name": "Plano Flexível",
+              "total": "R$ 18.000,00",
+              "conditions": "10x de R$ 1.800,00 ou 6x de R$ 3.000,00"
+            },
+            {
+              "name": "Plano Equilibrado (1+1)",
+              "total": "R$ 17.000,00",
+              "conditions": "Entrada de R$ 8.500,00 + R$ 8.500,00 na Entrega do Projeto"
+            },
+            {
+              "name": "Plano à Vista (Economia Imediata)",
+              "total": "R$ 16.200,00",
+              "conditions": "Pagamento na contratação - Representa 10% de desconto sobre o Plano Flexível"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "Opção 3: Solução Sob Medida – Sua Necessidade, Nosso Foco",
+          "description": "Se suas necessidades são específicas, podemos estruturar uma proposta personalizada. Combinamos os serviços essenciais com os complementares que melhor atendem ao seu objetivo e orçamento. Converse conosco para desenharmos juntos a solução ideal."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Próximos Passos: Começando Seu Projeto com Agilidade e Cuidado",
+      "content": [
+        {
+          "type": "item",
+          "content": "Cronograma Estimado: Nossa previsão é concluir os serviços essenciais em aproximadamente 60 dias, contando a partir da sua aprovação e do recebimento da documentação inicial."
+        },
+        {
+          "type": "item",
+          "content": "Prazos que dependem de órgãos externos (como Cartório, INCRA, Município) serão acompanhados de perto e informaremos você sobre o andamento. Nosso objetivo é ser ágil, sem abrir mão da qualidade."
+        },
+        {
+          "type": "item",
+          "content": "Comunicação Transparente: Manteremos você informado sobre cada etapa importante. Nossa equipe dedicará atenção especial para tirar suas dúvidas e garantir que o processo seja o mais tranquilo possível."
+        },
+        {
+          "type": "item",
+          "content": "Para Começar:",
+          "subitems": [
+            "Escolha a opção de investimento (1, 2 ou 3) que melhor se encaixa no que você precisa.",
+            "Confirme sua decisão respondendo a esta proposta ou entrando em contato com de nossos engenheiros.",
+            "Estamos prontos para iniciar!"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "O Que Nossos Clientes Dizem:",
+      "testimonials": [
+        {
+          "author": "Marcio Stakonski, empresario",
+          "quote": "A agilidade da Autha Engenharia é impressionante! Precisava de um levantamento complexo rapidamente e a equipe resolveu tudo com rapidez."
+        },
+        {
+          "author": "Carlos Caino, engenheiro civil",
+          "quote": "Meu trabalho estava complicado, mas a equipe desfez tudo rapidamente! Foram muito atenciosos e eficientes."
+        },
+        {
+          "author": "Família Damarem",
+          "quote": "Agradecemos à equipe! Cuidaram do nosso processo com atenção especial, agilidade e qualidade impecável. Serviço eficiente que nos deixou muito seguros!"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Condições Gerais e Detalhes Importantes:",
+      "items": [
+        "Os valores apresentados foram calculados para o imóvel Propriedade José Dias, com área de 30.000 m², considerando a complexidade estimada. Se houver mudanças significativas no escopo, pode ser necessário ajustar o orçamento.",
+        "O que não está incluído: Taxas e emolumentos de órgãos públicos (Cartório, INCRA, Prefeitura, etc.), custos com autenticações ou reconhecimento de firmas, e despesas de deslocamento para coletar assinaturas fora de Chapecó-SC (a menos que isso esteja previsto em algum serviço complementar contratado).",
+        "Esta proposta não cobre a resolução de disputas judiciais ou a realização de perícias técnicas adicionais, caso sejam necessárias.",
+        "Garantimos a total confidencialidade das suas informações, conforme a Lei Geral de Proteção de Dados (LGPD)."
+      ],
+      "note": "Fazer o paragrafo anterior em letras menores sem tanto destaque"
+    },
+    {
+      "id": 7,
+      "title": "Você sabia? (Curiosidades)",
+      "items": [
+        "A tecnologia LiDAR em nossos drones gera mapeamentos 3D de alta precisão. A nuvem densa de pontos capturada (acima de 200.000/segundo), revela detalhes do terreno que são cruciais para o planejamento, inclusive sob copas de árvores.",
+        "Após o protocolo ser aberto no Registro de Imóveis, você tem exatamente 20 dias corridos para atender a todas as exigências. Caso contrário, o protocolo é cancelado.",
+        "Aqui na Autha desenvolvemos boa parte de nossos softwares, como AUTHACAD, que dobra a velocidade para se fazer um projeto, e com baixíssima taxa de erros comparado a outras soluções genéricas."
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Conclusão e Assinaturas:",
+      "content": [
+        {
+          "type": "text",
+          "content": "Chegou a hora de tirar seu projeto do papel com a segurança e agilidade, esta proposta detalha a solução completa da Autha Engenharia para garantir o sucesso do seu Levantamento Topográfico, Retificação Administrativa e Desmembramento."
+        },
+        {
+          "type": "date",
+          "content": "Chapecó-SC, 11 de Novembro de 2025"
+        },
+        {
+          "type": "signature",
+          "content": "(Espaço para Assinatura)"
+        },
+        {
+          "type": "company_info",
+          "content": "Autha Engenharia e Mapeamento\nCNPJ: 38.489.344/0001-89"
+        },
+        {
+          "type": "validity",
+          "content": "Esta proposta é válida por 15 dias a partir da data de emissão."
+        },
+        {
+          "type": "slogan",
+          "content": "Seu projeto, nossa prioridade: Agilidade, tecnologia de ponta e cuidado dedicado para um registro seguro e tranquilo.\nMapeando o caminho para o seu sucesso."
+        }
+      ]
+    }
+  ]
+} 

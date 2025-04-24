@@ -16,15 +16,42 @@ if %ERRORLEVEL% NEQ 0 (
 
 echo [OK] Node.js encontrado.
 
+:: Verificar se as portas necessárias estão disponíveis
+echo Verificando portas em uso...
+netstat -ano | findstr ":5000" > nul
+if %ERRORLEVEL% EQU 0 (
+    echo [AVISO] Porta 5000 em uso. Tentando liberar...
+    for /f "tokens=5" %%a in ('netstat -ano ^| findstr ":5000"') do (
+        taskkill /F /PID %%a > nul 2>&1
+    )
+)
+
+netstat -ano | findstr ":5173" > nul
+if %ERRORLEVEL% EQU 0 (
+    echo [AVISO] Porta 5173 em uso. Tentando liberar...
+    for /f "tokens=5" %%a in ('netstat -ano ^| findstr ":5173"') do (
+        taskkill /F /PID %%a > nul 2>&1
+    )
+)
+
 :: Garantir que as dependências estão instaladas em ambos projetos
 echo Verificando dependências do servidor...
 cd server
 echo Instalando dependências do servidor...
 call npm install
 
-:: Garantir que nodemon está disponível para o servidor
-echo Instalando nodemon localmente no servidor...
+:: Garantir que nodemon e puppeteer estão disponíveis para o servidor
+echo Instalando nodemon e puppeteer localmente no servidor...
 call npm install --save-dev nodemon ts-node
+call npm install puppeteer
+
+:: Verificar se o Chromium foi instalado corretamente
+echo Verificando instalação do Chromium...
+if not exist "node_modules\puppeteer\.local-chromium" (
+    echo [AVISO] Chromium não encontrado. Reinstalando Puppeteer...
+    call npm uninstall puppeteer
+    call npm install puppeteer
+)
 
 cd ..
 
@@ -40,38 +67,42 @@ call npm install react-router-dom axios react-hook-form react-toastify
 
 :: Limpar cache do Vite
 echo Limpando cache do Vite...
-if exist node_modules\.vite (
-    rmdir /s /q node_modules\.vite
+if exist "node_modules\.vite" (
+    rmdir /s /q "node_modules\.vite"
 )
 
 cd ..
 
-:: Encerrar qualquer processo usando a porta 5000
-echo Verificando se as portas estão disponíveis...
-set "errorlevel_backup=%errorlevel%"
-taskkill /f /im node.exe 2>nul
-set "errorlevel=%errorlevel_backup%"
+:: Encerrar qualquer processo Node.js existente
+echo Encerrando processos Node.js anteriores...
+taskkill /f /im node.exe > nul 2>&1
 
-:: Aguardar um pouco para garantir que os processos foram encerrados
-timeout /t 2 /nobreak > nul
+:: Aguardar para garantir que os processos foram encerrados
+timeout /t 3 /nobreak > nul
 
 :: Iniciar o servidor backend em uma nova janela
 echo.
 echo Iniciando o servidor backend na porta 5000...
 start "Servidor Backend Autha" cmd /k "cd server && npx nodemon --exec ts-node index.ts"
 
-:: Aguardar o servidor iniciar
-echo Aguardando o servidor backend iniciar (8 segundos)...
-timeout /t 8 /nobreak > nul
+:: Aguardar o servidor iniciar (aumentado para 12 segundos)
+echo Aguardando o servidor backend iniciar (12 segundos)...
+timeout /t 12 /nobreak > nul
+
+:: Verificar se o servidor está respondendo
+curl -s http://localhost:5000/api/company-info > nul
+if %ERRORLEVEL% NEQ 0 (
+    echo [AVISO] Servidor backend pode não estar respondendo. Continuando mesmo assim...
+)
 
 :: Iniciar o cliente em uma nova janela
 echo.
 echo Iniciando o cliente frontend na porta 5173...
 start "Cliente Frontend Autha" cmd /k "cd client && npm run dev"
 
-:: Aguardar o cliente iniciar
-echo Aguardando o cliente frontend iniciar (10 segundos)...
-timeout /t 10 /nobreak > nul
+:: Aguardar o cliente iniciar (aumentado para 15 segundos)
+echo Aguardando o cliente frontend iniciar (15 segundos)...
+timeout /t 15 /nobreak > nul
 
 :: Abrir o navegador
 echo.
@@ -83,6 +114,13 @@ echo Aplicação iniciada!
 echo - Backend: http://localhost:5000
 echo - Frontend: http://localhost:5173
 echo ==============================================
+echo.
+echo Logs do servidor:
+echo - Verifique a janela "Servidor Backend Autha"
+echo.
+echo Logs do cliente:
+echo - Verifique a janela "Cliente Frontend Autha"
+echo ==============================================
 echo Para encerrar os servidores, feche as janelas de comando ou use Ctrl+C
 echo.
 
@@ -91,7 +129,9 @@ echo Pressione qualquer tecla para encerrar todos os processos e sair...
 pause
 
 :: Ao encerrar, matar os processos das aplicações Node
-taskkill /f /im node.exe 2>nul
+echo Encerrando todos os processos...
+taskkill /f /im node.exe > nul 2>&1
+timeout /t 2 /nobreak > nul
 
 echo Todos os processos encerrados.
 exit /b 0 

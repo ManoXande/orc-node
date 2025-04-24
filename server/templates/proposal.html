@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proposta - {{proposal.header.client}}</title>
+  <style>
+    /* Variáveis CSS */
+    :root {
+      --color-primary: #38d972;
+      --color-secondary: #2d2d2d;
+      --color-neutral-light: #f0f0f0;
+      --gradient-primary: linear-gradient(135deg, #30b86c, #38d972);
+      
+      /* Medidas para impressão A4 */
+      --page-width: 210mm;
+      --page-height: 297mm;
+      --margin-page: 20mm;
+      --header-height: 17mm;
+      --footer-height: 17mm;
+      --content-width: calc(var(--page-width) - (var(--margin-page) * 2));
+      --content-height: calc(var(--page-height) - var(--header-height) - var(--footer-height) - (var(--margin-page) * 2));
+    }
+
+    /* Configurações globais */
+    @page {
+      size: A4;
+      margin: var(--margin-page);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    @font-face {
+      font-family: 'Atyp Display';
+      src: url('data:application/font-woff2;base64,FONT_DATA_PLACEHOLDER') format('woff2');
+      font-weight: bold;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Atyp Text';
+      src: url('data:application/font-woff2;base64,FONT_DATA_PLACEHOLDER') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+    
+    body {
+      font-family: 'Atyp Text', Arial, sans-serif;
+      color: var(--color-secondary);
+      width: var(--page-width);
+      height: var(--page-height);
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Atyp Display', Arial, sans-serif;
+      font-weight: bold;
+      margin-bottom: 16px;
+      color: var(--color-primary);
+    }
+    
+    /* Cabeçalho e rodapé */
+    .header {
+      height: var(--header-height);
+      width: calc(100% - (var(--margin-page) * 2));
+      position: fixed;
+      top: var(--margin-page);
+      left: var(--margin-page);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--color-neutral-light);
+      padding-bottom: 8px;
+    }
+    
+    .header-logo img {
+      height: 12mm;
+    }
+    
+    .header-title {
+      font-family: 'Atyp Display', Arial, sans-serif;
+      font-size: 14px;
+      color: var(--color-secondary);
+    }
+    
+    .footer {
+      height: var(--footer-height);
+      width: calc(100% - (var(--margin-page) * 2));
+      position: fixed;
+      bottom: var(--margin-page);
+      left: var(--margin-page);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-top: 1px solid var(--color-neutral-light);
+      padding-top: 8px;
+      font-size: 8px;
+      text-align: center;
+    }
+    
+    .company-details {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    /* Conteúdo principal */
+    .content {
+      margin-top: calc(var(--header-height) + 10mm);
+      margin-bottom: calc(var(--footer-height) + 10mm);
+      padding-left: 0;
+      padding-right: 0;
+      width: 100%;
+    }
+    
+    /* Titulo e subtítulo */
+    .proposal-title {
+      font-size: 20px;
+      text-align: center;
+      margin-bottom: 16px;
+      color: var(--color-primary);
+    }
+    
+    .proposal-subheader {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--color-neutral-light);
+    }
+    
+    /* Seções */
+    .proposal-section {
+      margin-bottom: 24px;
+      page-break-inside: avoid;
+    }
+    
+    .section-title {
+      font-size: 16px;
+      color: var(--color-primary);
+      margin-bottom: 12px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--color-primary);
+    }
+    
+    .section-content {
+      margin-bottom: 16px;
+    }
+    
+    .text-content {
+      margin-bottom: 8px;
+      text-align: justify;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+    
+    /* Placeholder de imagem */
+    .placeholder-content {
+      background-color: var(--color-neutral-light);
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+      font-style: italic;
+      font-size: 10px;
+    }
+    
+    /* Itens com bullet points */
+    .section-items {
+      list-style-type: disc;
+      margin-left: 16px;
+      margin-bottom: 16px;
+      font-size: 11px;
+    }
+    
+    .section-item {
+      margin-bottom: 6px;
+    }
+    
+    .item-content {
+      margin-bottom: 10px;
+      font-size: 11px;
+    }
+    
+    .item-text {
+      margin-bottom: 5px;
+    }
+    
+    .subitems-list {
+      margin-left: 20px;
+      list-style-type: circle;
+    }
+    
+    .subitem {
+      margin-bottom: 3px;
+    }
+    
+    /* Tabelas */
+    .comparison-table-container {
+      margin: 16px 0;
+      width: 100%;
+    }
+    
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10px;
+    }
+    
+    .comparison-table th, .comparison-table td {
+      border: 1px solid #ddd;
+      padding: 6px;
+      text-align: left;
+    }
+    
+    .comparison-table th {
+      background-color: var(--color-primary);
+      color: white;
+    }
+    
+    .comparison-table tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    
+    /* Opções de investimento */
+    .investment-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    
+    .investment-option {
+      flex: 1;
+      min-width: 30%;
+      padding: 12px;
+      border: 1px solid var(--color-neutral-light);
+      border-radius: 6px;
+      background-color: #fafafa;
+      font-size: 10px;
+    }
+    
+    .option-title {
+      color: var(--color-primary);
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+    
+    .option-plans {
+      margin-top: 10px;
+    }
+    
+    .option-plan {
+      padding: 8px;
+      background-color: white;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    
+    .plan-name {
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      margin: 16px 0;
+    }
+    
+    .testimonial {
+      padding: 12px;
+      margin-bottom: 12px;
+      background-color: #f5f5f5;
+      border-left: 3px solid var(--color-primary);
+      font-style: italic;
+      font-size: 10px;
+    }
+    
+    .testimonial-author {
+      font-weight: bold;
+      text-align: right;
+      margin-top: 8px;
+      font-style: normal;
+    }
+    
+    /* Subseções */
+    .subsection {
+      margin: 12px 0;
+      padding: 12px;
+      background-color: #fafafa;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+    
+    .subsection-title {
+      color: var(--color-secondary);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    
+    .subsection-service {
+      margin: 12px 0;
+      padding: 8px;
+      background-color: white;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    .service-name {
+      color: var(--color-primary);
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+    
+    /* Assinatura e conclusão */
+    .signature-content {
+      margin: 24px 0;
+      text-align: center;
+    }
+    
+    .signature-line {
+      width: 60%;
+      height: 1px;
+      background-color: var(--color-secondary);
+      margin: 0 auto 8px;
+    }
+    
+    .date-content {
+      text-align: right;
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+    
+    .slogan-content {
+      text-align: center;
+      font-style: italic;
+      color: var(--color-primary);
+      margin-top: 16px;
+      font-size: 10px;
+    }
+    
+    .validity-content {
+      font-size: 10px;
+      color: #666;
+      margin-top: 12px;
+      text-align: center;
+    }
+    
+    .company-info-content {
+      text-align: center;
+      font-size: 10px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Cabeçalho -->
+  <header class="header">
+    <div class="header-logo">
+      <img src="{{logoPath}}" alt="{{company.name}}">
+    </div>
+    <div class="header-title">
+      <h3>Proposta Orçamentária – {{proposal.header.client}}</h3>
+    </div>
+  </header>
+  
+  <!-- Conteúdo principal -->
+  <main class="content">
+    <!-- Título principal -->
+    <h1 class="proposal-title">{{proposal.title}}</h1>
+    
+    <!-- Subheader com serviço e cliente -->
+    <div class="proposal-subheader">
+      <div class="service-type">
+        <strong>Serviço:</strong> {{proposal.header.service}}
+      </div>
+      <div class="client-name">
+        <strong>Cliente:</strong> {{proposal.header.client}}
+      </div>
+    </div>
+    
+    <!-- Seções -->
+    {{#each proposal.sections}}
+      <div class="proposal-section">
+        <h2 class="section-title">{{this.title}}</h2>
+        
+        {{#if this.content}}
+          <div class="section-content">
+            {{#each this.content}}
+              {{#if_eq this.type "text"}}
+                <p class="text-content">{{this.content}}</p>
+              {{/if_eq}}
+              
+              {{#if_eq this.type "placeholder"}}
+                <div class="placeholder-content">
+                  <p class="placeholder-text">{{this.content}}</p>
+                </div>
+              {{/if_eq}}
+              
+              {{#if_eq this.type "item"}}
+                <div class="item-content">
+                  <p class="item-text">• {{this.content}}</p>
+                  {{#if this.subitems}}
+                    <ul class="subitems-list">
+                      {{#each this.subitems}}
+                        <li class="subitem">{{this}}</li>
+                      {{/each}}
+                    </ul>
+                  {{/if}}
+                </div>
+              {{/if_eq}}
+              
+              {{#if_eq this.type "date"}}
+                <p class="date-content">{{this.content}}</p>
+              {{/if_eq}}
+              
+              {{#if_eq this.type "signature"}}
+                <div class="signature-content">
+                  <div class="signature-line"></div>
+                  <p class="signature-text">{{this.content}}</p>
+                </div>
+              {{/if_eq}}
+              
+              {{#if_eq this.type "company_info"}}
+                <div class="company-info-content">
+                  <p class="company-info-text">{{this.content}}</p>
+                </div>
+              {{/if_eq}}
+              
+              {{#if_eq this.type "validity"}}
+                <p class="validity-content">{{this.content}}</p>
+              {{/if_eq}}
+              
+              {{#if_eq this.type "slogan"}}
+                <p class="slogan-content">{{this.content}}</p>
+              {{/if_eq}}
+            {{/each}}
+          </div>
+        {{/if}}
+        
+        {{#if this.items}}
+          <ul class="section-items">
+            {{#each this.items}}
+              <li class="section-item">{{this}}</li>
+            {{/each}}
+          </ul>
+        {{/if}}
+        
+        {{#if this.testimonials}}
+          <div class="testimonials">
+            {{#each this.testimonials}}
+              <div class="testimonial">
+                <blockquote class="testimonial-quote">"{{this.quote}}"</blockquote>
+                <p class="testimonial-author">— {{this.author}}</p>
+              </div>
+            {{/each}}
+          </div>
+        {{/if}}
+        
+        {{#if this.comparison_table}}
+          <div class="comparison-table-container">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  {{#each this.comparison_table.headers}}
+                    <th>{{this}}</th>
+                  {{/each}}
+                </tr>
+              </thead>
+              <tbody>
+                {{#each this.comparison_table.rows}}
+                  <tr>
+                    {{#each this}}
+                      <td>{{this}}</td>
+                    {{/each}}
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        {{/if}}
+        
+        {{#if this.investment_options}}
+          <div class="investment-options">
+            {{#each this.investment_options}}
+              <div class="investment-option">
+                <h3 class="option-title">{{this.title}}</h3>
+                <p class="option-description">{{this.description}}</p>
+                {{#if this.includes}}
+                  <p class="option-includes"><strong>Inclui:</strong> {{this.includes}}</p>
+                {{/if}}
+                
+                {{#if this.plans}}
+                  <div class="option-plans">
+                    {{#each this.plans}}
+                      <div class="option-plan">
+                        <h4 class="plan-name">{{this.name}}</h4>
+                        <p class="plan-total"><strong>Total:</strong> {{this.total}}</p>
+                        <p class="plan-conditions">{{this.conditions}}</p>
+                      </div>
+                    {{/each}}
+                  </div>
+                {{/if}}
+              </div>
+            {{/each}}
+          </div>
+        {{/if}}
+        
+        {{#if this.subsections}}
+          <div class="subsections">
+            {{#each this.subsections}}
+              <div class="subsection">
+                <h3 class="subsection-title">{{this.title}}</h3>
+                
+                {{#if this.content}}
+                  <div class="subsection-content">
+                    {{#each this.content}}
+                      {{#if_eq this.type "text"}}
+                        <p class="text-content">{{this.content}}</p>
+                      {{/if_eq}}
+                    {{/each}}
+                  </div>
+                {{/if}}
+                
+                {{#if this.services}}
+                  <div class="subsection-services">
+                    {{#each this.services}}
+                      <div class="subsection-service">
+                        <h4 class="service-name">{{this.name}}</h4>
+                        {{#if this.what_we_will_do}}
+                          <p class="service-description"><strong>O que faremos:</strong> {{this.what_we_will_do}}</p>
+                        {{/if}}
+                        {{#if this.your_benefit}}
+                          <p class="service-benefit"><strong>Seu benefício:</strong> {{this.your_benefit}}</p>
+                        {{/if}}
+                        {{#if this.what_you_will_receive}}
+                          <p class="service-delivery"><strong>O que você receberá:</strong> {{this.what_you_will_receive}}</p>
+                        {{/if}}
+                        {{#if this.why_consider}}
+                          <p class="service-consider"><strong>Por que considerar:</strong> {{this.why_consider}}</p>
+                        {{/if}}
+                      </div>
+                    {{/each}}
+                  </div>
+                {{/if}}
+                
+                {{#if this.note}}
+                  <p class="subsection-note">{{this.note}}</p>
+                {{/if}}
+              </div>
+            {{/each}}
+          </div>
+        {{/if}}
+      </div>
+    {{/each}}
+  </main>
+  
+  <!-- Rodapé -->
+  <footer class="footer">
+    <div class="company-details">
+      <p>{{company.name}} | CNPJ: {{company.cnpj}}</p>
+      <p>
+        {{company.address.street}}, {{company.address.number}}, {{company.address.room}}, 
+        {{company.address.city}}-{{company.address.state}}
+      </p>
+      <p>
+        {{#each company.contact.phones}}
+          {{this}}{{#unless @last}} | {{/unless}}
+        {{/each}}
+         | {{company.contact.email}} | {{company.contact.website}}
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Helpers adicionais para o Handlebars (para uso no servidor)
+    Handlebars.registerHelper('if_eq', function(a, b, opts) {
+      if (a === b) {
+        return opts.fn(this);
+      } else {
+        return opts.inverse(this);
+      }
+    });
+  </script>
+</body>
+</html> 
