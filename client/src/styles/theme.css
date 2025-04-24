@@ -45,7 +45,7 @@
   /* Garantir que o cabeçalho apareça em cada página */
   .proposal-header {
     position: fixed;
-    top: var(--margin-page);
+    top: 0;
     left: var(--margin-page);
     right: var(--margin-page);
     z-index: 100;
@@ -55,7 +55,7 @@
   /* Garantir que o rodapé apareça em cada página */
   .proposal-footer {
     position: fixed;
-    bottom: var(--margin-page);
+    bottom: 0;
     left: var(--margin-page);
     right: var(--margin-page);
     z-index: 100;
@@ -206,7 +206,7 @@ button:hover {
   align-items: center;
   justify-content: space-between;
   position: fixed;
-  top: var(--margin-page);
+  top: 0;
   left: var(--margin-page);
   right: var(--margin-page);
   z-index: 100;
@@ -216,7 +216,7 @@ button:hover {
   height: var(--footer-height);
   width: calc(100% - (var(--margin-page) * 2));
   position: fixed;
-  bottom: var(--margin-page);
+  bottom: 0;
   left: var(--margin-page);
   font-size: 10px;
   text-align: center;
