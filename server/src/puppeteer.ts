@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer';
+import * as puppeteer from 'puppeteer';
 
 /**
  * Gera um PDF a partir de um conteúdo HTML
@@ -25,24 +25,51 @@ export async function generatePDF(html: string): Promise<Buffer> {
     console.log('Página criada com sucesso');
     
     console.log('Definindo conteúdo HTML...');
-    await page.setContent(html, { 
+    // Enable request interception and logging
+    await page.setRequestInterception(true);
+    
+    // Log all requests and their status
+    page.on('request', request => {
+      console.log('Request:', request.url());
+      request.continue();
+    });
+    
+    page.on('requestfailed', request => {
+      console.error('Failed request:', {
+        url: request.url(),
+        errorText: request.failure()?.errorText,
+        resourceType: request.resourceType()
+      });
+    });
+
+    // Log console messages from the page
+    page.on('console', msg => {
+      console.log('Browser console:', msg.text());
+    });
+
+    await page.setContent(html, {
       waitUntil: 'networkidle0',
       timeout: 30000
     });
     console.log('Conteúdo HTML definido com sucesso');
+
+    // Log all image elements and their src attributes
+    const imageData = await page.evaluate(() => {
+      const images = document.getElementsByTagName('img');
+      return Array.from(images).map(img => ({
+        src: img.src,
+        alt: img.alt,
+        visible: img.offsetParent !== null
+      }));
+    });
+    console.log('Images in document:', imageData);
 
     console.log('Configurando estilos para impressão...');
     await page.addStyleTag({
       content: `
         @page {
           size: A4;
-          margin: 0;  /* Remove todas as margens */
-          @top-left { content: none; }
-          @top-center { content: none; }
-          @top-right { content: none; }
-          @bottom-left { content: none; }
-          @bottom-center { content: none; }
-          @bottom-right { content: none; }
+          margin: 0;
         }
         
         body {
@@ -52,18 +79,16 @@ export async function generatePDF(html: string): Promise<Buffer> {
           padding: 0;
         }
 
-        /* Remove qualquer header/footer fixo */
-        header, footer, 
-        [role="header"], [role="footer"],
-        .header, .footer {
-          display: none !important;
-          position: static !important;
+        /* Ensure proper spacing for header and footer */
+        .content {
+          margin-top: 16mm;
+          margin-bottom: 16mm;
         }
 
-        /* Garante que elementos não sejam tratados como header/footer */
-        * {
-          position: relative !important;
-          page-break-inside: auto;
+        /* Keep header and footer visible on every page */
+        .header, .footer {
+          position: fixed !important;
+          z-index: 1000;
         }
       `
     });
@@ -74,15 +99,15 @@ export async function generatePDF(html: string): Promise<Buffer> {
       format: 'A4',
       printBackground: true,
       margin: {
-        top: '0',
-        bottom: '0',
+        top: '16mm',
+        bottom: '16mm',
         left: '0',
         right: '0'
       },
-      displayHeaderFooter: false,
-      headerTemplate: '',
-      footerTemplate: '',
-      preferCSSPageSize: true,  /* Usa as margens do CSS @page */
+      displayHeaderFooter: true,
+      headerTemplate: '<div></div>',  // Empty but required when displayHeaderFooter is true
+      footerTemplate: '<div></div>',  // Empty but required when displayHeaderFooter is true
+      preferCSSPageSize: true,
       timeout: 30000
     });
     console.log('PDF gerado com sucesso');

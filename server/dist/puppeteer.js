@@ -1,10 +1,40 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generatePDF = generatePDF;
-const puppeteer_1 = __importDefault(require("puppeteer"));
+const puppeteer = __importStar(require("puppeteer"));
 /**
  * Gera um PDF a partir de um conteúdo HTML
  * @param html - Conteúdo HTML para gerar o PDF
@@ -14,7 +44,7 @@ async function generatePDF(html) {
     let browser;
     try {
         console.log('Iniciando o navegador Puppeteer...');
-        browser = await puppeteer_1.default.launch({
+        browser = await puppeteer.launch({
             headless: true,
             args: [
                 '--no-sandbox',
@@ -38,13 +68,7 @@ async function generatePDF(html) {
             content: `
         @page {
           size: A4;
-          margin: 20mm;  /* Restaura margem única */
-          @top-left { content: none; }
-          @top-center { content: none; }
-          @top-right { content: none; }
-          @bottom-left { content: none; }
-          @bottom-center { content: none; }
-          @bottom-right { content: none; }
+          margin: 0;
         }
         
         body {
@@ -54,18 +78,16 @@ async function generatePDF(html) {
           padding: 0;
         }
 
-        /* Remove qualquer header/footer fixo */
-        header, footer, 
-        [role="header"], [role="footer"],
-        .header, .footer {
-          display: none !important;
-          position: static !important;
+        /* Ensure proper spacing for header and footer */
+        .content {
+          margin-top: 16mm;
+          margin-bottom: 16mm;
         }
 
-        /* Garante que elementos não sejam tratados como header/footer */
-        * {
-          position: relative !important;
-          page-break-inside: auto;
+        /* Keep header and footer visible on every page */
+        .header, .footer {
+          position: fixed !important;
+          z-index: 1000;
         }
       `
         });
@@ -75,15 +97,15 @@ async function generatePDF(html) {
             format: 'A4',
             printBackground: true,
             margin: {
-                top: '0',
-                bottom: '0',
+                top: '16mm',
+                bottom: '16mm',
                 left: '0',
                 right: '0'
             },
-            displayHeaderFooter: false,
-            headerTemplate: '',
-            footerTemplate: '',
-            preferCSSPageSize: true, /* Usa as margens do CSS @page */
+            displayHeaderFooter: true,
+            headerTemplate: '<div></div>', // Empty but required when displayHeaderFooter is true
+            footerTemplate: '<div></div>', // Empty but required when displayHeaderFooter is true
+            preferCSSPageSize: true,
             timeout: 30000
         });
         console.log('PDF gerado com sucesso');

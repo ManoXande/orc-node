@@ -12,7 +12,7 @@ timeout /t 1 /nobreak > nul
 :: Iniciar servidor backend
 echo.
 echo Iniciando servidor (porta 5000)...
-start "Backend" cmd /k "cd server && npx nodemon --exec ts-node index.ts"
+start "Backend" cmd /k "cd server && npx nodemon --exec ts-node src/index.ts"
 
 :: Pequena pausa para o servidor iniciar
 timeout /t 2 /nobreak > nul

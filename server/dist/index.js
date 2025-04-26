@@ -1,105 +1,178 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const express_fileupload_1 = __importDefault(require("express-fileupload"));
-const path_1 = __importDefault(require("path"));
-const fs_1 = __importDefault(require("fs"));
-const handlebars_1 = __importDefault(require("handlebars"));
+const express = require('express');
+const cors = require('cors');
+const fileUpload = require('express-fileupload');
+const path = require('path');
+const fs = require('fs');
+const Handlebars = require('handlebars');
+// Importar a função para geração de PDF
 const puppeteer_1 = require("./puppeteer");
 // Registrar helpers do Handlebars
-handlebars_1.default.registerHelper('if_eq', function (a, b, opts) {
-    return a === b ? opts.fn(this) : opts.inverse(this);
+Handlebars.registerHelper('if_eq', function (a, b, opts) {
+    if (a === b) {
+        return opts.fn(this);
+    }
+    return opts.inverse(this);
 });
-handlebars_1.default.registerHelper('if_not_eq', function (a, b, opts) {
-    return a !== b ? opts.fn(this) : opts.inverse(this);
+Handlebars.registerHelper('if_not_eq', function (a, b, opts) {
+    if (a !== b) {
+        return opts.fn(this);
+    }
+    return opts.inverse(this);
 });
-handlebars_1.default.registerHelper('formatDate', function (date) {
+Handlebars.registerHelper('formatDate', function (date, opts) {
     if (!date)
         return '';
-    return new Date(date).toLocaleDateString('pt-BR');
+    const d = new Date(date);
+    return d.toLocaleDateString('pt-BR');
 });
-handlebars_1.default.registerHelper('formatCurrency', function (value) {
+Handlebars.registerHelper('formatCurrency', function (value, opts) {
     if (!value)
         return 'R$ 0,00';
     return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 });
-handlebars_1.default.registerHelper('formatNumber', function (value) {
+Handlebars.registerHelper('formatNumber', function (value, opts) {
     if (!value)
         return '0';
     return value.toLocaleString('pt-BR');
 });
-const app = (0, express_1.default)();
+// Inicializar o servidor Express
+const app = express();
 const PORT = process.env.PORT || 5000;
-app.use(express_1.default.json({ limit: '50mb' }));
-app.use(express_1.default.urlencoded({ limit: '50mb', extended: true }));
-app.use((0, cors_1.default)());
-app.use((0, express_fileupload_1.default)());
-app.use(express_1.default.static(path_1.default.resolve(__dirname, '../client/dist')));
-// Rota para informações da empresa
+// Log server startup
+console.log('=== Iniciando servidor Autha Proposal Generator ===');
+console.log(`Diretório atual: ${__dirname}`);
+// Middleware para logging de requisições
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    next();
+});
+// Middleware para aumentar o limite de payload
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+// Outros Middleware
+app.use(cors());
+app.use(fileUpload());
+app.use(express.static(path.join(__dirname, '../../client/dist')));
+// Rota para fornecer informações da empresa
 app.get('/api/company-info', (req, res) => {
     try {
-        const companyInfoPath = path_1.default.resolve(process.cwd(), 'dados-autha.json');
-        const data = fs_1.default.readFileSync(companyInfoPath, 'utf8');
-        const companyInfo = JSON.parse(data).company;
-        res.json(companyInfo);
+        const companyInfoPath = path.join(__dirname, '../../dados-autha.json');
+        const companyInfo = JSON.parse(fs.readFileSync(companyInfoPath, 'utf8'));
+        res.json(companyInfo.company);
     }
-    catch (err) {
-        console.error('Erro ao ler informações da empresa:', err);
+    catch (error) {
+        console.error('Erro ao ler informações da empresa:', error);
         res.status(500).json({ error: 'Erro ao ler informações da empresa' });
     }
 });
-// Rota para exemplo de proposta
+// Rota para fornecer uma proposta de exemplo
 app.get('/api/sample-proposal', (req, res) => {
     try {
-        const samplePath = path_1.default.resolve(process.cwd(), 'prop-generico.json');
-        const data = fs_1.default.readFileSync(samplePath, 'utf8');
-        res.json(JSON.parse(data));
+        const proposalPath = path.join(__dirname, '../../prop-generico.json');
+        const proposal = JSON.parse(fs.readFileSync(proposalPath, 'utf8'));
+        res.json(proposal);
     }
-    catch (err) {
-        console.error('Erro ao ler proposta de exemplo:', err);
+    catch (error) {
+        console.error('Erro ao ler proposta de exemplo:', error);
         res.status(500).json({ error: 'Erro ao ler proposta de exemplo' });
     }
 });
-// Geração de PDF
+// Middleware de erro global
+app.use((err, req, res, next) => {
+    console.error('Erro não tratado:', err);
+    res.status(500).json({
+        error: 'Erro interno do servidor',
+        details: err.message,
+        stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    });
+});
+// Rota principal para receber os dados e gerar o PDF
 app.post('/api/proposal', async (req, res) => {
     try {
+        console.log('=== Iniciando geração de PDF ===');
         const proposalData = req.body;
-        if (!proposalData?.header?.client) {
+        console.log('Dados recebidos:', JSON.stringify(proposalData, null, 2));
+        // Validar dados da proposta
+        if (!proposalData || !proposalData.header || !proposalData.header.client) {
             throw new Error('Dados da proposta inválidos ou incompletos');
         }
-        // Carregar company info
-        const companyInfoPath = path_1.default.resolve(process.cwd(), 'dados-autha.json');
-        if (!fs_1.default.existsSync(companyInfoPath)) {
+        // Carregar as informações da empresa
+        const companyInfoPath = path.join(__dirname, '../../dados-autha.json');
+        console.log('Carregando informações da empresa de:', companyInfoPath);
+        if (!fs.existsSync(companyInfoPath)) {
             throw new Error(`Arquivo de dados da empresa não encontrado: ${companyInfoPath}`);
         }
-        const companyInfo = JSON.parse(fs_1.default.readFileSync(companyInfoPath, 'utf8')).company;
-        // Carregar template
-        const templatePath = path_1.default.resolve(process.cwd(), 'server/templates/proposal.html');
-        if (!fs_1.default.existsSync(templatePath)) {
-            throw new Error(`Template não encontrado: ${templatePath}`);
+        const companyInfo = JSON.parse(fs.readFileSync(companyInfoPath, 'utf8')).company;
+        console.log('Informações da empresa carregadas com sucesso');
+        // Carregar e compilar o template
+        console.log('__dirname:', __dirname);
+        console.log('Process cwd:', process.cwd());
+        // Tentar múltiplos caminhos possíveis para debug
+        const possiblePaths = [
+            path.join(__dirname, './templates/proposal.html'),
+            path.join(__dirname, '../src/templates/proposal.html'),
+            path.join(process.cwd(), 'server/src/templates/proposal.html')
+        ];
+        console.log('Tentando encontrar o template em:');
+        possiblePaths.forEach(p => console.log(`- ${p} (exists: ${fs.existsSync(p)})`));
+        const templatePath = path.join(__dirname, './templates/proposal.html');
+        console.log('Caminho final do template:', templatePath);
+        if (!fs.existsSync(templatePath)) {
+            throw new Error(`Template HTML não encontrado: ${templatePath}`);
         }
-        const templateSource = fs_1.default.readFileSync(templatePath, 'utf8');
-        const template = handlebars_1.default.compile(templateSource);
-        // Paths de imagens
-        const logoPath = path_1.default.resolve(process.cwd(), 'logomarca-autha.png');
-        const iconPath = path_1.default.resolve(process.cwd(), 'icone-autha.png');
-        const html = template({ proposal: proposalData, company: companyInfo, logoPath, iconPath });
+        const templateSource = fs.readFileSync(templatePath, 'utf8');
+        const template = Handlebars.compile(templateSource);
+        console.log('Template compilado com sucesso');
+        // Verificar caminhos das imagens
+        const logoPath = path.join(__dirname, '../../logomarca-autha.png');
+        const iconPath = path.join(__dirname, '../../icone-autha.png');
+        if (!fs.existsSync(logoPath)) {
+            console.warn('Arquivo de logo não encontrado:', logoPath);
+        }
+        if (!fs.existsSync(iconPath)) {
+            console.warn('Arquivo de ícone não encontrado:', iconPath);
+        }
+        // Renderizar o HTML com os dados da proposta e da empresa
+        console.log('Renderizando HTML com os dados');
+        const html = template({
+            proposal: proposalData,
+            company: companyInfo,
+            logoPath,
+            iconPath
+        });
+        console.log('HTML renderizado com sucesso');
+        // Gerar o PDF usando Puppeteer
+        console.log('Iniciando geração do PDF com Puppeteer');
         const pdfBuffer = await (0, puppeteer_1.generatePDF)(html);
-        res.contentType('application/pdf').send(pdfBuffer);
+        console.log('PDF gerado com sucesso');
+        // Enviar o PDF como resposta
+        res.contentType('application/pdf');
+        res.send(pdfBuffer);
+        console.log('=== PDF enviado com sucesso ===');
     }
-    catch (err) {
-        console.error('Erro ao gerar PDF:', err);
-        res.status(500).json({ error: 'Erro ao gerar PDF', details: err.message });
+    catch (error) {
+        console.error('=== ERRO NA GERAÇÃO DO PDF ===');
+        console.error('Detalhes do erro:', {
+            message: error.message,
+            stack: error.stack,
+            type: error.constructor.name
+        });
+        // Enviar resposta de erro mais detalhada
+        res.status(500).json({
+            error: 'Erro ao gerar PDF',
+            details: error.message || 'Erro desconhecido',
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
+            type: error.constructor.name
+        });
     }
 });
-// Servir React em produção
+// Rota para servir o cliente React em produção
 app.get('*', (req, res) => {
-    res.sendFile(path_1.default.resolve(__dirname, '../client/dist/index.html'));
+    res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
 });
+// Iniciar o servidor
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });

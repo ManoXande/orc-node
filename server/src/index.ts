@@ -1,41 +1,43 @@
-import express from 'express';
-import cors from 'cors';
-import fileUpload from 'express-fileupload';
-import path from 'path';
-import fs from 'fs';
-import Handlebars from 'handlebars';
-import puppeteer from 'puppeteer';
+const express = require('express');
+const cors = require('cors');
+const fileUpload = require('express-fileupload');
+const path = require('path');
+const fs = require('fs');
+const Handlebars = require('handlebars');
+
+import type { Request, Response, NextFunction } from 'express';
+import type { HelperOptions } from 'handlebars';
 
 // Importar a função para geração de PDF
 import { generatePDF } from './puppeteer';
 
 // Registrar helpers do Handlebars
-Handlebars.registerHelper('if_eq', function(this: any, a: any, b: any, opts: Handlebars.HelperOptions) {
+Handlebars.registerHelper('if_eq', function(this: any, a: any, b: any, opts: HelperOptions) {
   if (a === b) {
     return opts.fn(this);
   }
   return opts.inverse(this);
 });
 
-Handlebars.registerHelper('if_not_eq', function(this: any, a: any, b: any, opts: Handlebars.HelperOptions) {
+Handlebars.registerHelper('if_not_eq', function(this: any, a: any, b: any, opts: HelperOptions) {
   if (a !== b) {
     return opts.fn(this);
   }
   return opts.inverse(this);
 });
 
-Handlebars.registerHelper('formatDate', function(this: any, date: Date | string | number, opts: Handlebars.HelperOptions) {
+Handlebars.registerHelper('formatDate', function(this: any, date: Date | string | number, opts: HelperOptions) {
   if (!date) return '';
   const d = new Date(date);
   return d.toLocaleDateString('pt-BR');
 });
 
-Handlebars.registerHelper('formatCurrency', function(this: any, value: number, opts: Handlebars.HelperOptions) {
+Handlebars.registerHelper('formatCurrency', function(this: any, value: number, opts: HelperOptions) {
   if (!value) return 'R$ 0,00';
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 });
 
-Handlebars.registerHelper('formatNumber', function(this: any, value: number, opts: Handlebars.HelperOptions) {
+Handlebars.registerHelper('formatNumber', function(this: any, value: number, opts: HelperOptions) {
   if (!value) return '0';
   return value.toLocaleString('pt-BR');
 });
@@ -44,8 +46,12 @@ Handlebars.registerHelper('formatNumber', function(this: any, value: number, opt
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Log server startup
+console.log('=== Iniciando servidor Autha Proposal Generator ===');
+console.log(`Diretório atual: ${__dirname}`);
+
 // Middleware para logging de requisições
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
   next();
 });
@@ -57,12 +63,12 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 // Outros Middleware
 app.use(cors());
 app.use(fileUpload());
-app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use(express.static(path.join(__dirname, '../../client/dist')));
 
 // Rota para fornecer informações da empresa
-app.get('/api/company-info', (req, res) => {
+app.get('/api/company-info', (req: Request, res: Response) => {
   try {
-    const companyInfoPath = path.join(__dirname, '../dados-autha.json');
+    const companyInfoPath = path.join(__dirname, '../../dados-autha.json');
     const companyInfo = JSON.parse(fs.readFileSync(companyInfoPath, 'utf8'));
     res.json(companyInfo.company);
   } catch (error) {
@@ -72,9 +78,9 @@ app.get('/api/company-info', (req, res) => {
 });
 
 // Rota para fornecer uma proposta de exemplo
-app.get('/api/sample-proposal', (req, res) => {
+app.get('/api/sample-proposal', (req: Request, res: Response) => {
   try {
-    const proposalPath = path.join(__dirname, '../prop-generico.json');
+    const proposalPath = path.join(__dirname, '../../prop-generico.json');
     const proposal = JSON.parse(fs.readFileSync(proposalPath, 'utf8'));
     res.json(proposal);
   } catch (error) {
@@ -84,7 +90,7 @@ app.get('/api/sample-proposal', (req, res) => {
 });
 
 // Middleware de erro global
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error('Erro não tratado:', err);
   res.status(500).json({
     error: 'Erro interno do servidor',
@@ -94,7 +100,7 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 });
 
 // Rota principal para receber os dados e gerar o PDF
-app.post('/api/proposal', async (req, res) => {
+app.post('/api/proposal', async (req: Request, res: Response) => {
   try {
     console.log('=== Iniciando geração de PDF ===');
     const proposalData = req.body;
@@ -106,7 +112,7 @@ app.post('/api/proposal', async (req, res) => {
     }
     
     // Carregar as informações da empresa
-    const companyInfoPath = path.join(__dirname, '../dados-autha.json');
+    const companyInfoPath = path.join(__dirname, '../../dados-autha.json');
     console.log('Carregando informações da empresa de:', companyInfoPath);
     
     if (!fs.existsSync(companyInfoPath)) {
@@ -117,8 +123,21 @@ app.post('/api/proposal', async (req, res) => {
     console.log('Informações da empresa carregadas com sucesso');
     
     // Carregar e compilar o template
+    console.log('__dirname:', __dirname);
+    console.log('Process cwd:', process.cwd());
+    
+    // Tentar múltiplos caminhos possíveis para debug
+    const possiblePaths = [
+      path.join(__dirname, './templates/proposal.html'),
+      path.join(__dirname, '../src/templates/proposal.html'),
+      path.join(process.cwd(), 'server/src/templates/proposal.html')
+    ];
+    
+    console.log('Tentando encontrar o template em:');
+    possiblePaths.forEach(p => console.log(`- ${p} (exists: ${fs.existsSync(p)})`));
+    
     const templatePath = path.join(__dirname, './templates/proposal.html');
-    console.log('Carregando template de:', templatePath);
+    console.log('Caminho final do template:', templatePath);
     
     if (!fs.existsSync(templatePath)) {
       throw new Error(`Template HTML não encontrado: ${templatePath}`);
@@ -128,15 +147,31 @@ app.post('/api/proposal', async (req, res) => {
     const template = Handlebars.compile(templateSource);
     console.log('Template compilado com sucesso');
     
-    // Verificar caminhos das imagens
-    const logoPath = path.join(__dirname, '../logomarca-autha.png');
-    const iconPath = path.join(__dirname, '../icone-autha.png');
+    // Converter imagens para base64
+    const convertImageToBase64 = (imagePath: string): string => {
+      try {
+        const imageBuffer = fs.readFileSync(imagePath);
+        const base64Image = imageBuffer.toString('base64');
+        const mimeType = 'image/png';
+        return `data:${mimeType};base64,${base64Image}`;
+      } catch (error) {
+        console.warn(`Erro ao converter imagem para base64: ${imagePath}`, error);
+        return '';
+      }
+    };
+
+    // Carregar e converter imagens para base64
+    const logoPath = path.join(__dirname, '../../logomarca-autha.png');
+    const iconPath = path.join(__dirname, '../../icone-autha.png');
     
-    if (!fs.existsSync(logoPath)) {
-      console.warn('Arquivo de logo não encontrado:', logoPath);
+    const logoBase64 = convertImageToBase64(logoPath);
+    const iconBase64 = convertImageToBase64(iconPath);
+    
+    if (!logoBase64) {
+      console.warn('Arquivo de logo não encontrado ou não pôde ser convertido:', logoPath);
     }
-    if (!fs.existsSync(iconPath)) {
-      console.warn('Arquivo de ícone não encontrado:', iconPath);
+    if (!iconBase64) {
+      console.warn('Arquivo de ícone não encontrado ou não pôde ser convertido:', iconPath);
     }
     
     // Renderizar o HTML com os dados da proposta e da empresa
@@ -144,8 +179,8 @@ app.post('/api/proposal', async (req, res) => {
     const html = template({
       proposal: proposalData,
       company: companyInfo,
-      logoPath,
-      iconPath
+      logoPath: logoBase64,
+      iconPath: iconBase64
     });
     console.log('HTML renderizado com sucesso');
     
@@ -177,11 +212,11 @@ app.post('/api/proposal', async (req, res) => {
 });
 
 // Rota para servir o cliente React em produção
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+app.get('*', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
 });
 
 // Iniciar o servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
-}); 
+});

@@ -1,0 +1,19 @@
+{
+  "title": "TEST PROPOSAL",
+  "header": {
+    "service": "Test Service",
+    "client": "Test Client"
+  },
+  "sections": [
+    {
+      "id": 1,
+      "title": "Test Section",
+      "content": [
+        {
+          "type": "text",
+          "content": "This is a test proposal to debug template loading."
+        }
+      ]
+    }
+  ]
+}

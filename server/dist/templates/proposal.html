@@ -16,8 +16,8 @@
       --page-width: 210mm;
       --page-height: 297mm;
       --margin-page: 0;
-      --header-height: 0;
-      --footer-height: 0;
+      --header-height: 16mm;
+      --footer-height: 16mm;
       --content-width: var(--page-width);
       --content-height: calc(var(--page-height) - var(--header-height) - var(--footer-height));
       --content-padding: 0;  /* Removido padding lateral */
@@ -110,8 +110,8 @@
     /* Cabeçalho e rodapé - sem padding lateral */
     .header {
       height: var(--header-height);
-      width: 100%;
-      position: absolute;
+      width: 210mm;
+      position: fixed;
       top: 0;
       left: 0;
       display: flex;
@@ -120,6 +120,8 @@
       padding: 0 !important;
       margin: 0 !important;
       overflow: hidden;
+      background-color: white;
+      z-index: 1000;
     }
     
     .header-logo img {
@@ -134,7 +136,7 @@
     
     .footer {
       height: var(--footer-height);
-      width: 100%;
+      width: 210mm;
       position: fixed;
       bottom: 0;
       left: 0;
@@ -145,6 +147,8 @@
       font-size: 8px;
       text-align: center;
       overflow: hidden;
+      background-color: white;
+      z-index: 1000;
     }
     
     .company-details {
