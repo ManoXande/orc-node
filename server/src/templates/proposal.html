@@ -446,7 +446,11 @@
               
               {{#if_eq this.type "placeholder"}}
                 <div class="placeholder-content">
-                  <p class="placeholder-text">{{this.content}}</p>
+                  {{#if (starts_with this.content "data:image/")}}
+                    <img src="{{this.content}}" alt="Imagem da proposta" style="max-width: 100%; height: auto;">
+                  {{else}}
+                    <p class="placeholder-text">{{this.content}}</p>
+                  {{/if}}
                 </div>
               {{/if_eq}}
               

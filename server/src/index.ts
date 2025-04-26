@@ -12,6 +12,10 @@ import type { HelperOptions } from 'handlebars';
 import { generatePDF } from './puppeteer';
 
 // Registrar helpers do Handlebars
+Handlebars.registerHelper('starts_with', function(str: string, prefix: string) {
+  return str && str.startsWith(prefix);
+});
+
 Handlebars.registerHelper('if_eq', function(this: any, a: any, b: any, opts: HelperOptions) {
   if (a === b) {
     return opts.fn(this);

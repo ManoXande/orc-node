@@ -105,12 +105,16 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ initialData, onFormSubmit }) 
                     type="file" 
                     accept="image/*"
                     onChange={(e) => {
-                      // Aqui você pode implementar lógica para upload de imagem
-                      // Por ora, apenas atualiza o texto do placeholder
-                      if (e.target.files?.[0]) {
-                        field.onChange(`[Imagem: ${e.target.files[0].name}]`);
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                          const base64Data = event.target?.result as string;
+                          field.onChange(base64Data);
+                        };
+                        reader.readAsDataURL(file);
                       }
-                    }} 
+                    }}
                   />
                 </div>
               )}
