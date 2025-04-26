@@ -1,0 +1,9 @@
+---
+description: instruções integradas para configurar um agente LLM que use Puppeteer para exportar aplicações React + CSS como PDFs A4 multipágina com cabeçalhos e rodapés fixos.
+globs: 
+alwaysApply: false
+---
+[puppeteer-multipage-pdf.txt](mdc:puppeteer-multipage-pdf.txt)
+[puppeteer-solucoes.md](mdc:puppeteer-solucoes.md)
+
+[react-to-pdf-puppeteer.txt](mdc:react-to-pdf-puppeteer.txt)

@@ -1,0 +1,263 @@
+# PDFs Multipágina com Layouts Distintos Usando Puppeteer
+
+## Introdução
+
+Atualmente, praticamente todas as empresas buscam oferecer dados em formato PDF, seja um extrato bancário ou detalhes de pedidos. As pessoas compartilham informações através de PDFs, que podem ser visualizados em dispositivos e impressos para manter em arquivo. Considerando o uso generalizado de PDFs, todos os desenvolvedores deveriam experimentar bibliotecas de geração de PDF, incluindo pdfmake, PDFKit, Puppeteer, entre outras.
+
+Neste artigo, vamos explorar como gerar PDFs multipágina com layouts distintos usando Puppeteer, e também discutir uma arquitetura completa para automatizar a geração de PDFs com serviços AWS.
+
+## Puppeteer vs Puppeteer-Core
+
+**Puppeteer** é uma biblioteca Node.js que fornece uma API de alto nível para controlar Chrome/Chromium através do DevTools Protocol. O Puppeteer funciona em modo headless por padrão, mas pode ser configurado para executar em modo completo ("headful"). Essa biblioteca irá gerar o PDF exatamente como você faria manualmente com uma página HTML em seu navegador.
+
+**Puppeteer-Core** é uma versão mais leve do Puppeteer que não baixa automaticamente o Chromium, permitindo que você especifique onde o executável do Chrome está localizado.
+
+## Configuração Inicial e Requisitos
+
+Para começar a trabalhar com Puppeteer, você precisará de:
+
+1. Sistema Operacional Linux (Ubuntu)
+2. Node.Js (18.17.0)
+3. Puppeteer-Core (21.5)
+4. @sparticuz/chromium (119.0.2)
+
+Após instalar esses requisitos, seu `package.json` terá estas entradas:
+
+```json
+"dependencies": {   
+  "@sparticuz/chromium": "^119.0.2",  
+  "puppeteer-core": "21.5"  
+}
+```
+
+## Gerando PDFs com Puppeteer
+
+Veja o código básico para gerar um PDF usando Puppeteer-Core:
+
+```javascript
+const puppeteer = require("puppeteer-core");  
+const chromium = require("@sparticuz/chromium");  
+const fs = require('fs');  
+
+// Configurações opcionais para o modo headless
+chromium.setHeadlessMode = true;  
+// Configuração opcional para desativar webgl
+chromium.setGraphicsMode = false;  
+
+// Carregando o conteúdo do arquivo HTML   
+let htmlContent;  
+fs.readFile('./test.html', 'utf8', (err, data) => {  
+  htmlContent = data;  
+});  
+
+async function generatePdf() {  
+    let pdfBuffer;  
+    const browser = await puppeteer.launch({  
+        args: chromium.args,  
+        defaultViewport: chromium.defaultViewport,  
+        executablePath: await chromium.executablePath(),  
+        headless: chromium.headless,  
+    });  
+    
+    const page = await browser.newPage();  
+    const loaded = page.waitForNavigation({  
+        waitUntil: 'load'  
+    });  
+    
+    await page.setContent(htmlContent);  
+    await loaded;  
+    
+    pdfBuffer = await page.pdf({ format: 'A4' });  
+    console.log(`[INFO] Pdf Is Generated Successfully`);  
+    
+    // Escreve o buffer PDF no caminho de arquivo especificado  
+    fs.writeFileSync('output.pdf', pdfBuffer);  
+    console.log('[INFO] PDF file saved successfully');  
+    
+    await browser.close();  
+}  
+
+generatePdf();
+```
+
+## Criando PDFs com Múltiplas Páginas e Layouts Distintos
+
+Para criar um PDF com várias páginas, cada uma com layout diferente, você pode usar a propriedade CSS `page-break-after` para garantir que o conteúdo seja dividido corretamente entre as páginas:
+
+```html
+<div style="page-break-after: always;">
+  <!-- Conteúdo da primeira página -->
+</div>
+
+<div style="page-break-after: always;">
+  <!-- Conteúdo da segunda página com layout diferente -->
+</div>
+
+<div>
+  <!-- Conteúdo da última página -->
+</div>
+```
+
+## Trabalhando com Conteúdo Dinâmico
+
+Para PDFs reais, você precisará de conteúdo dinâmico que varia periodicamente para diferentes usuários. Uma maneira eficaz de resolver isso é usando expressões regulares (RegExp) em seu modelo HTML e depois substituí-las por valores dinâmicos.
+
+Exemplo de código HTML com placeholders:
+
+```html
+<td>  
+    <strong>Número do Recibo: </strong> <span>${Receipt Number}</span>  
+</td>
+```
+
+E no JavaScript, você pode substituir esses placeholders por valores dinâmicos:
+
+```javascript
+let pdfData = {'Receipt Number' : "10/04/2024"}  
+let htmlContent = htmlString.replace(/\${([^}]+)}/g, (match, key) => pdfData[key.trim()]);
+```
+
+Após essa operação, `${Receipt Number}` será substituído por `10/04/2024` no código HTML, que posteriormente será passado para o Puppeteer para geração do PDF.
+
+## Automatizando a Geração de PDFs com Serviços AWS
+
+Para automatizar a geração de PDFs em escala, você pode usar uma arquitetura baseada em nuvem com serviços AWS:
+
+1. **AWS Lambda** - Processa a geração de PDF quando acionado
+2. **AWS S3 Bucket** - Armazena templates HTML e PDFs gerados
+3. **Amazon DynamoDB** - Armazena dados que acionam a geração de PDFs
+
+### Arquitetura de Automação de PDF
+
+O fluxo de trabalho funciona assim:
+
+1. Armazene o modelo HTML em um bucket S3 (template-bucket)
+2. Configure uma função Lambda que:
+   - Recupera o template do bucket S3
+   - Substitui os placeholders RegExp no template por dados do evento
+   - Gera o PDF usando Puppeteer com o template modificado
+   - Armazena o PDF gerado em outro bucket S3 (pdf-bucket)
+3. Configure o Lambda como um trigger para operações em sua tabela DynamoDB
+
+### Implementação da Função Lambda
+
+```javascript
+const { S3Client, PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3');  
+const puppeteer = require('puppeteer-core');  
+const chromium = require('@sparticuz/chromium');  
+const { unmarshall } = require('@aws-sdk/util-dynamodb');  
+
+async function generatePdf(event) {  
+    const functionName = 'generatePdf Lambda';  
+    try {  
+        let completeEvent = event;  
+        let eventName = completeEvent.Records[0].eventName;  
+        
+        // Verificando se o Stream é do tipo de evento Insert
+        if (eventName != 'INSERT') {  
+            throw new Error(`[Error] [${functionName}] This Stream Is Only Made For Insert Event Type`);  
+        }  
+        
+        let dynamoNewImageData = unmarshall(completeEvent.Records[0].dynamodb.NewImage);  
+        let pdfData = dynamoNewImageData.documentData;  
+        const fileUploadLocation = "output.pdf";  
+        const templateFileName = "test.html";  
+        
+        // Isso armazenará o modelo HTML para geração de PDF  
+        let htmlContent;  
+        // Isso armazenará os dados do PDF após a geração  
+        let pdfBuffer;  
+        
+        // Configurando instância s3Client  
+        let s3Client = new S3Client({  
+            credentials: // suas credenciais,  
+            region: // sua região,  
+        });  
+        
+        // Definindo htmlTemplate buscando a string html  
+        try {  
+            let htmlParams = {  
+                Bucket: // nome do seu bucket,  
+                Key: `${templateFileName}`  
+            };  
+            const response = await s3Client.send(new GetObjectCommand(htmlParams));  
+            let htmlString = await response.Body.transformToString();  
+            
+            // Definindo HtmlContent substituindo os ${Data} presentes em HtmlString  
+            htmlContent = htmlString.replace(/\${([^}]+)}/g, (match, key) =>   
+                          (pdfData[key.trim()] !== undefined ? pdfData[key.trim()] : 'NA'));  
+                          
+            console.log(`[INFO] [${functionName}] Template Is Loaded And Populated With Data`);  
+        } catch (err) {  
+            console.log(`[Error] [${functionName}] Facing Error while Setting Template : ${err}`);  
+            throw new Error(`Facing Error while Setting Template : ${err}`);  
+        }  
+        
+        // Gerando dados PDF e armazenando-os em variável  
+        try {  
+            const browser = await puppeteer.launch({  
+                args: chromium.args,  
+                defaultViewport: chromium.defaultViewport,  
+                headless: chromium.headless,  
+                executablePath: await chromium.executablePath()  
+                // Se estiver usando Windows para teste, forneça o caminho do chrome.exe.  
+                // executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe'  
+            });  
+            
+            const page = await browser.newPage();  
+            const loaded = page.waitForNavigation({  
+                waitUntil: 'load'  
+            });  
+            
+            await page.setContent(htmlContent);  
+            await loaded;  
+            
+            pdfBuffer = await page.pdf({ format: 'A4' });  
+            await browser.close();  
+            
+            console.log(`[INFO] [${functionName}] Pdf Is Generated Successfully`);  
+        } catch (err) {  
+            console.log(`[Error] [${functionName}] Failed In Pdf Generation`);  
+            throw new Error(`Facing Error while generating pdf with puppeteer : ${err}`);  
+        }  
+        
+        // Fazendo upload do PDF para o bucket S3  
+        try {  
+            const uploadParams = {  
+                Bucket: // nome do seu bucket para armazenar PDF,  
+                Key: fileUploadLocation,  
+                Body: pdfBuffer,  
+                ContentType: 'application/pdf'  
+            };  
+            
+            const objectInsertResponse = await s3Client.send(new PutObjectCommand(uploadParams));  
+            console.log(`File Uploaded Successfully At ${fileUploadLocation}`);  
+            
+            if (objectInsertResponse.$metadata.httpStatusCode == '200') {  
+                console.log(`[INFO] [${functionName}] [SUCCESS] Pdf Uploaded httpstatus code 200`);  
+            } else {  
+                console.log(`[INFO] [${functionName}] [FAILED] Pdf Not Uploaded Httpstatus Code 400`);  
+            }  
+        } catch (err) {  
+            throw new Error(`Facing Error while Uploading Pdf To the Cloud : ${err}`);  
+        }  
+    } catch (error) {  
+        console.log(`[ERROR] [${functionName}] Api Main Error`, error);  
+        return { 'Error': `[ERROR] [${functionName}] Api Main Error` };  
+    }  
+}
+```
+
+## Conclusão
+
+A geração de PDFs com múltiplas páginas e layouts distintos pode ser um requisito comum em aplicações modernas. O Puppeteer oferece uma solução eficaz e flexível para isso, permitindo a criação de documentos PDF a partir de templates HTML com total controle sobre o layout e o conteúdo.
+
+Ao combinar o Puppeteer com serviços AWS como Lambda e S3, você pode criar uma arquitetura escalável para automação de geração de PDFs, adequada para ambientes de produção de alta demanda.
+
+A abordagem apresentada neste artigo permite:
+1. Criar PDFs com múltiplas páginas e layouts distintos
+2. Incorporar conteúdo dinâmico usando templating
+3. Automatizar a geração de PDFs em resposta a eventos
+4. Escalar de acordo com as necessidades da aplicação
+
+Fonte: [Multi-Page PDF with Distinct Layout Using Puppeteer](https://codestax.medium.com/multi-page-pdf-with-distinct-layout-using-puppeteer-ee8d45c7594b)

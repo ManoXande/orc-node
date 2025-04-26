@@ -1,11 +1,8 @@
-export interface ProposalHeader {
-  service: string;
-  client: string;
-}
-
 export interface ContentItem {
-  type: string;
+  type: 'text' | 'placeholder' | 'item' | 'date' | 'signature' | 'company_info' | 'validity' | 'slogan';
   content: string;
+  image?: string;
+  description?: string;
   subitems?: string[];
 }
 
@@ -32,12 +29,13 @@ export interface ComparisonTable {
 
 export interface Plan {
   name: string;
-  total: string;
-  conditions: string;
+  description: string;
+  total?: string;
+  conditions?: string;
 }
 
 export interface InvestmentOption {
-  id: number;
+  id: string;
   title: string;
   description: string;
   includes?: string;
@@ -45,35 +43,32 @@ export interface InvestmentOption {
 }
 
 export interface Testimonial {
-  author: string;
   quote: string;
+  author: string;
 }
 
 export interface Section {
-  id: number;
+  id: string;
   title: string;
-  content?: ContentItem[];
-  subsections?: Subsection[];
+  content: ContentItem[];
+  items?: string[];
+  testimonials?: Testimonial[];
   comparison_table?: ComparisonTable;
   investment_options?: InvestmentOption[];
-  testimonials?: Testimonial[];
-  items?: string[];
-  note?: string;
+  subsections?: Subsection[];
 }
 
 export interface Proposal {
   title: string;
-  header: ProposalHeader;
   sections: Section[];
 }
 
 export interface CompanyInfo {
   name: string;
-  cnpj: string;
   address: {
     street: string;
     number: string;
-    room: string;
+    room?: string;
     city: string;
     state: string;
   };
@@ -82,4 +77,6 @@ export interface CompanyInfo {
     email: string;
     website: string;
   };
-} 
+  signerName: string;
+  signerRole: string;
+}

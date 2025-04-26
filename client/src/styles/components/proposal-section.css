@@ -1,0 +1,73 @@
+/* Reset all margins and padding while preserving structure */
+.proposal-section {
+  page-break-before: always;
+}
+
+.proposal-section:first-child {
+  page-break-before: avoid;
+}
+
+.section-title {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-xl);
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.text-content {
+  font-family: var(--font-family-text);
+  font-size: var(--font-size-md);
+  line-height: 1.6;
+  color: var(--color-text);
+  text-align: justify;
+}
+
+.placeholder-content {
+  background-color: var(--color-background-light);
+  text-align: center;
+  border-radius: var(--border-radius-md);
+}
+
+.placeholder-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.section-items {
+  list-style-type: disc;
+}
+
+.section-item {
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+}
+
+.investment-options {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Preserve print-specific layout rules */
+@media print {
+  .proposal-section {
+    break-before: always;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .proposal-section:first-child {
+    break-before: avoid;
+  }
+  
+  .section-content {
+    break-inside: auto;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .content-item {
+    break-inside: avoid;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}

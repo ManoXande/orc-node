@@ -1,0 +1,138 @@
+@import './variables.css';
+
+/* Reset global agressivo */
+*, *::before, *::after {
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+}
+
+/* Estilos globais preservando apenas estrutura essencial */
+.proposal-preview {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: var(--color-background-light);
+}
+
+.proposal-container {
+  width: var(--page-width);
+  min-height: var(--page-height);
+  background-color: var(--color-background);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  box-sizing: border-box;
+}
+
+.proposal-title {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-xl);
+  text-align: center;
+  margin-bottom: 0;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  padding-bottom: 0;
+}
+
+.proposal-title:after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 80px;
+  height: 3px;
+  background-color: var(--color-primary);
+  transform: translateX(-50%);
+}
+
+.proposal-date {
+  text-align: right;
+  margin-bottom: 0;
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+}
+
+.proposal-content {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.proposal-footer {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.company-info {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.company-info h3 {
+  color: var(--color-primary);
+  font-size: var(--font-size-lg);
+  margin-bottom: 0;
+}
+
+.company-info p {
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  margin-bottom: 0;
+}
+
+.signature-area {
+  text-align: center;
+  margin-top: 0;
+}
+
+.signature-line {
+  width: 60%;
+  height: 1px;
+  background-color: var(--color-border);
+  margin: 0 auto;
+}
+
+.signature-name {
+  font-weight: bold;
+  color: var(--color-text);
+  margin-bottom: 0;
+}
+
+.signature-role {
+  color: var(--color-text-light);
+  font-size: var(--font-size-sm);
+}
+
+/* Regras de impressão otimizadas */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body {
+    width: var(--page-width);
+    height: var(--page-height);
+  }
+  
+  .proposal-preview {
+    background: none;
+  }
+  
+  .proposal-container {
+    box-shadow: none;
+  }
+  
+  .proposal-footer {
+    position: running(footer);
+  }
+  
+  @page {
+    @bottom-center {
+      content: element(footer);
+    }
+  }
+}

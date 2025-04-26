@@ -1,0 +1,52 @@
+/* Reset margins/padding while maintaining structure */
+.investment-option {
+  flex: 1;
+  min-width: 250px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-background);
+  transition: var(--transition-normal);
+  page-break-inside: avoid;
+}
+
+.option-title {
+  color: var(--color-primary);
+  font-size: var(--font-size-lg);
+  font-family: var(--font-family-display);
+}
+
+.option-description {
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+}
+
+.option-plan {
+  background-color: var(--color-background-light);
+  border-radius: var(--border-radius-sm);
+}
+
+.plan-price {
+  color: var(--color-primary);
+  font-weight: bold;
+  font-size: var(--font-size-lg);
+}
+
+/* Print-specific styles */
+@media print {
+  .investment-option {
+    break-inside: avoid;
+    border: 1px solid var(--color-border);
+    box-shadow: none;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .option-title,
+  .option-description,
+  .option-plans,
+  .option-plan,
+  .plan-price {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
