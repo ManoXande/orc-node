@@ -85,9 +85,9 @@ echo.
 echo Iniciando o servidor backend na porta 5000...
 start "Servidor Backend Autha" cmd /k "cd server && npx nodemon --exec ts-node index.ts"
 
-:: Aguardar o servidor iniciar (aumentado para 12 segundos)
-echo Aguardando o servidor backend iniciar (12 segundos)...
-timeout /t 12 /nobreak > nul
+:: Aguardar o servidor iniciar (aumentado para 3 segundos)
+echo Aguardando o servidor backend iniciar (3 segundos)...
+timeout /t 3 /nobreak > nul
 
 :: Verificar se o servidor está respondendo
 curl -s http://localhost:5000/api/company-info > nul
@@ -101,8 +101,8 @@ echo Iniciando o cliente frontend na porta 5173...
 start "Cliente Frontend Autha" cmd /k "cd client && npm run dev"
 
 :: Aguardar o cliente iniciar (aumentado para 15 segundos)
-echo Aguardando o cliente frontend iniciar (15 segundos)...
-timeout /t 15 /nobreak > nul
+echo Aguardando o cliente frontend iniciar (3 segundos)...
+timeout /t 3 /nobreak > nul
 
 :: Abrir o navegador
 echo.

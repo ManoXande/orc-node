@@ -19,7 +19,7 @@
   /* Medidas para impressão A4 */
   --page-width: 210mm;
   --page-height: 297mm;
-  --margin-page: 20mm;
+  --margin-page: 9mm;
   --header-height: 17mm;
   --footer-height: 17mm;
   --content-width: calc(var(--page-width) - (var(--margin-page) * 2));
@@ -30,7 +30,7 @@
 @media print {
   @page {
     size: A4;
-    margin: var(--margin-page);
+    margin: 0;
     /* Adicionar marcas de corte é opcional */
     marks: crop cross;
   }
@@ -45,9 +45,10 @@
   /* Garantir que o cabeçalho apareça em cada página */
   .proposal-header {
     position: fixed;
-    top: 0;
-    left: var(--margin-page);
-    right: var(--margin-page);
+    top: calc(9mm - var(--header-height) / 2);
+    left: 0;
+    right: 0;
+    height: var(--header-height);
     z-index: 100;
     background-color: white;
   }
@@ -55,9 +56,10 @@
   /* Garantir que o rodapé apareça em cada página */
   .proposal-footer {
     position: fixed;
-    bottom: 0;
-    left: var(--margin-page);
-    right: var(--margin-page);
+    bottom: calc(9mm - var(--footer-height) / 2);
+    left: 0;
+    right: 0;
+    height: var(--footer-height);
     z-index: 100;
     background-color: white;
   }
@@ -249,4 +251,4 @@ button:hover {
 .mb-1 { margin-bottom: var(--spacing-sm); }
 .mb-2 { margin-bottom: var(--spacing-md); }
 .mb-3 { margin-bottom: var(--spacing-lg); }
-.mb-4 { margin-bottom: var(--spacing-xl); } 
+.mb-4 { margin-bottom: var(--spacing-xl); }
